@@ -2,6 +2,14 @@ module RequestTrail
   class Collector
     THREAD_KEY: Symbol
 
+    @started_at: Float
+    @sql_count: Integer
+    @sql_duration_ms: Float
+    @cache_hits: Integer
+    @cache_misses: Integer
+    @cache_writes: Integer
+    @cache_duration_ms: Float
+
     attr_reader sql_count: Integer
     attr_reader sql_duration_ms: Float
     attr_reader cache_hits: Integer
@@ -14,9 +22,9 @@ module RequestTrail
     def self.stop: () -> nil
 
     def initialize: () -> void
-    def record_sql: (Float duration_ms) -> Integer
-    def record_cache_read: (hit: bool, duration_ms: Float) -> Integer
-    def record_cache_write: (duration_ms: Float) -> Integer
+    def record_sql: (Float duration_ms) -> Float
+    def record_cache_read: (hit: bool, duration_ms: Float) -> Float
+    def record_cache_write: (duration_ms: Float) -> Float
     def elapsed_ms: () -> Float
   end
 end

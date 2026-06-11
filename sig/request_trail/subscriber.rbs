@@ -4,7 +4,15 @@ module RequestTrail
     CACHE_READ_EVENT: String
     CACHE_WRITE_EVENT: String
 
+    @attach: Array[untyped]?
+
     def self.attach: () -> Array[untyped]
     def self.detach: () -> nil
+
+    private
+
+    def self.sql_subscription: () -> untyped
+    def self.cache_read_subscription: () -> untyped
+    def self.cache_write_subscription: () -> untyped
   end
 end
