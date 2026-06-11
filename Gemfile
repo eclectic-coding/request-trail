@@ -12,6 +12,8 @@ gem "rspec", "~> 3.0"
 
 gem "rubocop", "~> 1.21"
 
+gem "bundler-audit"
+
 group :test do
   gem "simplecov", require: false
   gem "simplecov_json_formatter", require: false

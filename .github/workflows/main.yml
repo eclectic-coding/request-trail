@@ -25,11 +25,11 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "3.4"
+          ruby-version: "3.3"
           bundler-cache: true
 
-      - name: Run StandardRB
-        run: bundle exec standardrb
+      - name: Run RuboCop
+        run: bundle exec rubocop
 
   security:
     name: Security audit
@@ -42,7 +42,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "3.4"
+          ruby-version: "3.3"
           bundler-cache: true
 
       - name: Run bundler-audit
