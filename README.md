@@ -1,5 +1,11 @@
 # Request::Trail
 
+[![CI](https://github.com/eclectic-coding/request-trail/actions/workflows/main.yml/badge.svg)](https://github.com/eclectic-coding/request-trail/actions/workflows/main.yml)
+[![Gem Version](https://img.shields.io/gem/v/request-trail.svg)](https://rubygems.org/gems/request-trail)
+[![Downloads](https://img.shields.io/gem/dt/request-trail.svg)](https://rubygems.org/gems/request-trail)
+[![Ruby](https://img.shields.io/badge/ruby-%3E%3D%203.3-CC342D.svg)](https://rubygems.org/gems/request-trail)
+[![codecov](https://codecov.io/gh/eclectic-coding/request-trail/branch/main/graph/badge.svg)](https://codecov.io/gh/eclectic-coding/request-trail)
+
 TODO: Delete this and the text below, and describe your gem
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/request/trail`. To experiment with that code, run `bin/console` for an interactive prompt.
