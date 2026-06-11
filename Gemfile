@@ -20,6 +20,8 @@ gem "rack"
 gem "railties"
 
 group :test do
+  gem "rails", ">= 7.0"
+  gem "rspec-rails"
   gem "simplecov", require: false
   gem "simplecov_json_formatter", require: false
 end
