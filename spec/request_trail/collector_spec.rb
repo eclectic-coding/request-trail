@@ -64,6 +64,31 @@ RSpec.describe RequestTrail::Collector do
     end
   end
 
+  describe "#record_action" do
+    subject(:collector) { described_class.new }
+
+    it "sets action_duration_ms" do
+      collector.record_action(duration_ms: 104.0, view_duration_ms: 22.0)
+      expect(collector.action_duration_ms).to eq(104.0)
+    end
+
+    it "sets view_duration_ms" do
+      collector.record_action(duration_ms: 104.0, view_duration_ms: 22.0)
+      expect(collector.view_duration_ms).to eq(22.0)
+    end
+
+    it "initializes with zero action and view durations" do
+      expect(collector.action_duration_ms).to eq(0.0)
+      expect(collector.view_duration_ms).to eq(0.0)
+    end
+
+    it "overwrites on repeated calls" do
+      collector.record_action(duration_ms: 50.0, view_duration_ms: 10.0)
+      collector.record_action(duration_ms: 104.0, view_duration_ms: 22.0)
+      expect(collector.action_duration_ms).to eq(104.0)
+    end
+  end
+
   describe "#record_cache_write" do
     subject(:collector) { described_class.new }
 
