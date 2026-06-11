@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.1.0] - 2026-06-11
+
 ### Added
 
 - Rack middleware (`RequestTrail::Middleware`) that wraps requests and records wall-clock duration
@@ -10,4 +12,5 @@
 - `RequestTrail::Subscriber` — attach/detach API for notification subscriptions
 - `RequestTrail::Collector` — thread-safe per-request event accumulator
 
-[Unreleased]: https://github.com/eclectic-coding/request-trail/commits/main
+[Unreleased]: https://github.com/eclectic-coding/request-trail/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/eclectic-coding/request-trail/releases/tag/v0.1.0
