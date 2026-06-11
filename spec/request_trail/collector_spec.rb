@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Request::Trail::Collector do
+RSpec.describe RequestTrail::Collector do
   describe ".start / .current / .stop" do
     it "starts with no current collector" do
       expect(described_class.current).to be_nil

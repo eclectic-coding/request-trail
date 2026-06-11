@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-`request-trail` is a Ruby gem (namespace `Request::Trail`) currently in early development. The scaffold is in place; the core implementation is yet to be written in `lib/request/trail.rb`.
+`request_trail` is a Ruby gem (module `RequestTrail`) that traces a Rails request through all processing layers and dumps a flame-graph-style summary to the log.
 
 ## Commands
 
@@ -24,22 +24,28 @@ bin/console             # Interactive prompt with gem loaded
 
 ```
 lib/
-  request/
-    trail.rb            # Entry point — defines Request::Trail module and Error class
-    trail/
-      version.rb        # VERSION constant
+  request_trail.rb          # Entry point — RequestTrail module, configure/formatter/reset!
+  request_trail/
+    version.rb              # VERSION constant
+    configuration.rb        # Config object (enabled, log_level, threshold_ms, logger)
+    collector.rb            # Per-request event accumulator (Thread.current storage)
+    subscriber.rb           # ActiveSupport::Notifications subscriber for sql.active_record
+    formatter.rb            # Plain-text log formatter
+    middleware.rb           # Rack middleware — wraps request, drives collector lifecycle
+    railtie.rb              # Rails Railtie — auto-inserts middleware, attaches subscriber
 spec/
-  request/
-    trail_spec.rb       # Main spec
-  spec_helper.rb        # Configures SimpleCov (HTML + JSON), RSpec options
+  request_trail_spec.rb     # Main module spec
+  request_trail/            # Per-class specs
+  spec_helper.rb            # Configures SimpleCov (HTML + JSON), loads rack/activesupport/railties
 ```
 
 ## Code Style
 
 - RuboCop targets Ruby 3.3; `NewCops: enable` means all new cops are active
 - String literals must use **double quotes** (both regular strings and interpolation)
-- `spec/**/*` is excluded from RuboCop — no need to add cops there
+- `spec/**/*` and `vendor/**/*` are excluded from RuboCop
 - All files use `# frozen_string_literal: true`
+- `Style/Documentation` is disabled — internal classes do not require doc comments
 
 ## CI
 

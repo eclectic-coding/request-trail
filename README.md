@@ -1,9 +1,9 @@
-# Request::Trail
+# RequestTrail
 
 [![CI](https://github.com/eclectic-coding/request-trail/actions/workflows/main.yml/badge.svg)](https://github.com/eclectic-coding/request-trail/actions/workflows/main.yml)
-[![Gem Version](https://img.shields.io/gem/v/request-trail.svg)](https://rubygems.org/gems/request-trail)
-[![Downloads](https://img.shields.io/gem/dt/request-trail.svg)](https://rubygems.org/gems/request-trail)
-[![Ruby](https://img.shields.io/badge/ruby-%3E%3D%203.3-CC342D.svg)](https://rubygems.org/gems/request-trail)
+[![Gem Version](https://img.shields.io/gem/v/request_trail.svg)](https://rubygems.org/gems/request_trail)
+[![Downloads](https://img.shields.io/gem/dt/request_trail.svg)](https://rubygems.org/gems/request_trail)
+[![Ruby](https://img.shields.io/badge/ruby-%3E%3D%203.3-CC342D.svg)](https://rubygems.org/gems/request_trail)
 [![codecov](https://codecov.io/gh/eclectic-coding/request-trail/branch/main/graph/badge.svg)](https://codecov.io/gh/eclectic-coding/request-trail)
 
 Middleware that traces a request through all the layers (middleware, controller, ActiveRecord, cache) and dumps a flame-graph-style summary to the log.
@@ -21,13 +21,13 @@ Middleware that traces a request through all the layers (middleware, controller,
 Add to your application's Gemfile:
 
 ```bash
-bundle add request-trail
+bundle add request_trail
 ```
 
 Or install directly:
 
 ```bash
-gem install request-trail
+gem install request_trail
 ```
 
 [Back to top](#requesttrail)

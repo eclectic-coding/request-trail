@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Request::Trail::Railtie do
+RSpec.describe RequestTrail::Railtie do
   it "is a Rails::Railtie" do
     expect(described_class.ancestors).to include(Rails::Railtie)
   end

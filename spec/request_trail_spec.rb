@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-RSpec.describe Request::Trail do
+RSpec.describe RequestTrail do
   it "has a version number" do
-    expect(Request::Trail::VERSION).not_to be_nil
+    expect(RequestTrail::VERSION).not_to be_nil
   end
 
   describe ".configure" do
@@ -14,7 +14,7 @@ RSpec.describe Request::Trail do
 
   describe ".configuration" do
     it "returns a Configuration instance" do
-      expect(described_class.configuration).to be_a(Request::Trail::Configuration)
+      expect(described_class.configuration).to be_a(RequestTrail::Configuration)
     end
 
     it "memoizes" do
@@ -24,7 +24,7 @@ RSpec.describe Request::Trail do
 
   describe ".formatter" do
     it "returns a Formatter instance" do
-      expect(described_class.formatter).to be_a(Request::Trail::Formatter)
+      expect(described_class.formatter).to be_a(RequestTrail::Formatter)
     end
 
     it "memoizes" do

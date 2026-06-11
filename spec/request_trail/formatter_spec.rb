@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
-RSpec.describe Request::Trail::Formatter do
+RSpec.describe RequestTrail::Formatter do
   subject(:formatter) { described_class.new }
 
   let(:env) { Rack::MockRequest.env_for("/orders", method: "GET") }
   let(:request) { Rack::Request.new(env) }
-  let(:collector) { instance_double(Request::Trail::Collector, elapsed_ms: 142.5, sql_count: 7, sql_duration_ms: 38.3) }
+  let(:collector) do
+    instance_double(RequestTrail::Collector, elapsed_ms: 142.5, sql_count: 7, sql_duration_ms: 38.3)
+  end
 
   describe "#format" do
     it "includes the request method and path" do

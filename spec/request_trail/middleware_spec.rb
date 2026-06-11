@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-RSpec.describe Request::Trail::Middleware do
+RSpec.describe RequestTrail::Middleware do
   let(:inner_app) { ->(_env) { [200, {}, ["OK"]] } }
   let(:middleware) { described_class.new(inner_app) }
   let(:logger) { instance_double(Logger, info: nil) }
   let(:env) { Rack::MockRequest.env_for("/orders", method: "GET") }
 
-  before { Request::Trail.configuration.logger = logger }
+  before { RequestTrail.configuration.logger = logger }
 
   describe "#call" do
     it "returns the inner app response" do
@@ -22,11 +22,11 @@ RSpec.describe Request::Trail::Middleware do
 
     it "clears the collector after the request" do
       middleware.call(env)
-      expect(Request::Trail::Collector.current).to be_nil
+      expect(RequestTrail::Collector.current).to be_nil
     end
 
     context "when disabled" do
-      before { Request::Trail.configuration.enabled = false }
+      before { RequestTrail.configuration.enabled = false }
 
       it "passes through without tracing" do
         middleware.call(env)
@@ -40,7 +40,7 @@ RSpec.describe Request::Trail::Middleware do
     end
 
     context "when threshold_ms is set above request duration" do
-      before { Request::Trail.configuration.threshold_ms = 100_000 }
+      before { RequestTrail.configuration.threshold_ms = 100_000 }
 
       it "skips logging" do
         middleware.call(env)
@@ -57,7 +57,7 @@ RSpec.describe Request::Trail::Middleware do
 
       it "clears the collector" do
         middleware.call(env) rescue nil
-        expect(Request::Trail::Collector.current).to be_nil
+        expect(RequestTrail::Collector.current).to be_nil
       end
     end
   end

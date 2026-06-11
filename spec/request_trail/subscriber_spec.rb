@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Request::Trail::Subscriber do
+RSpec.describe RequestTrail::Subscriber do
   describe ".attach" do
     it "returns a subscription object" do
       expect(described_class.attach).not_to be_nil
@@ -14,20 +14,20 @@ RSpec.describe Request::Trail::Subscriber do
 
     it "records sql events to the current collector" do
       described_class.attach
-      Request::Trail::Collector.start
+      RequestTrail::Collector.start
 
       ActiveSupport::Notifications.instrument("sql.active_record") { nil }
 
-      expect(Request::Trail::Collector.current.sql_count).to eq(1)
+      expect(RequestTrail::Collector.current.sql_count).to eq(1)
     end
 
     it "accumulates sql duration" do
       described_class.attach
-      Request::Trail::Collector.start
+      RequestTrail::Collector.start
 
       ActiveSupport::Notifications.instrument("sql.active_record") { nil }
 
-      expect(Request::Trail::Collector.current.sql_duration_ms).to be >= 0
+      expect(RequestTrail::Collector.current.sql_duration_ms).to be >= 0
     end
 
     it "does nothing when no collector is active" do
@@ -41,10 +41,10 @@ RSpec.describe Request::Trail::Subscriber do
       described_class.attach
       described_class.detach
 
-      Request::Trail::Collector.start
+      RequestTrail::Collector.start
       ActiveSupport::Notifications.instrument("sql.active_record") { nil }
 
-      expect(Request::Trail::Collector.current.sql_count).to eq(0)
+      expect(RequestTrail::Collector.current.sql_count).to eq(0)
     end
 
     it "is safe to call when not attached" do

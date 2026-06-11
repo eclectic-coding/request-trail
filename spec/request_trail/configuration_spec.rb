@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Request::Trail::Configuration do
+RSpec.describe RequestTrail::Configuration do
   subject(:config) { described_class.new }
 
   describe "defaults" do
@@ -39,9 +39,7 @@ RSpec.describe Request::Trail::Configuration do
     context "when Rails.logger is available" do
       let(:rails_logger) { instance_double(Logger) }
 
-      before do
-        allow(Rails).to receive(:logger).and_return(rails_logger)
-      end
+      before { allow(Rails).to receive(:logger).and_return(rails_logger) }
 
       it "returns Rails.logger" do
         expect(config.logger).to be(rails_logger)
@@ -49,9 +47,7 @@ RSpec.describe Request::Trail::Configuration do
     end
 
     context "when Rails.logger is nil" do
-      before do
-        allow(Rails).to receive(:logger).and_return(nil)
-      end
+      before { allow(Rails).to receive(:logger).and_return(nil) }
 
       it "returns a stdlib Logger" do
         expect(config.logger).to be_a(Logger)

@@ -15,7 +15,7 @@ require "rack"
 require "active_support"
 require "rails/railtie"
 
-require "request/trail"
+require "request_trail"
 
 RSpec.configure do |config|
   config.example_status_persistence_file_path = ".rspec_status"
@@ -26,8 +26,8 @@ RSpec.configure do |config|
   end
 
   config.after do
-    Request::Trail.reset!
-    Request::Trail::Collector.stop
-    Request::Trail::Subscriber.detach
+    RequestTrail.reset!
+    RequestTrail::Collector.stop
+    RequestTrail::Subscriber.detach
   end
 end
