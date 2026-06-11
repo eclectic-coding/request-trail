@@ -1,0 +1,6 @@
+module RequestTrail
+  class Middleware
+    def initialize: (untyped app) -> void
+    def call: (Hash[String, untyped] env) -> untyped
+  end
+end

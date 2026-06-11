@@ -2,14 +2,6 @@
 
 `request_trail` traces a Rails request through every processing layer — middleware, controller, ActiveRecord, cache — and emits a flame-graph-style summary to the log. This roadmap describes the incremental path to a stable 1.0.0.
 
-## 0.2.0 — Cache Tracing
-
-- Subscribe to `cache_read`, `cache_write`, `cache_fetch_hit`, and `cache_delete` notifications
-- Add cache hit/miss/write counts and cumulative time to the summary line:
-  ```
-  [RequestTrail] GET /orders 142ms | SQL: 7/38ms | Cache: 4 hits, 1 miss, 2ms
-  ```
-
 ## 0.3.0 — Controller & View Tracing
 
 - Subscribe to `process_action.action_controller` and `render_template.action_view`

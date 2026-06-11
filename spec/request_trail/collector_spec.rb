@@ -35,6 +35,50 @@ RSpec.describe RequestTrail::Collector do
     end
   end
 
+  describe "#record_cache_read" do
+    subject(:collector) { described_class.new }
+
+    it "increments cache_hits on a hit" do
+      collector.record_cache_read(hit: true, duration_ms: 1.0)
+      expect(collector.cache_hits).to eq(1)
+      expect(collector.cache_misses).to eq(0)
+    end
+
+    it "increments cache_misses on a miss" do
+      collector.record_cache_read(hit: false, duration_ms: 1.0)
+      expect(collector.cache_misses).to eq(1)
+      expect(collector.cache_hits).to eq(0)
+    end
+
+    it "accumulates cache_duration_ms" do
+      collector.record_cache_read(hit: true, duration_ms: 1.5)
+      collector.record_cache_read(hit: false, duration_ms: 2.0)
+      expect(collector.cache_duration_ms).to be_within(0.01).of(3.5)
+    end
+
+    it "initializes with zero cache counts" do
+      expect(collector.cache_hits).to eq(0)
+      expect(collector.cache_misses).to eq(0)
+      expect(collector.cache_writes).to eq(0)
+      expect(collector.cache_duration_ms).to eq(0.0)
+    end
+  end
+
+  describe "#record_cache_write" do
+    subject(:collector) { described_class.new }
+
+    it "increments cache_writes" do
+      collector.record_cache_write(duration_ms: 2.0)
+      collector.record_cache_write(duration_ms: 1.0)
+      expect(collector.cache_writes).to eq(2)
+    end
+
+    it "accumulates cache_duration_ms" do
+      collector.record_cache_write(duration_ms: 3.0)
+      expect(collector.cache_duration_ms).to be_within(0.01).of(3.0)
+    end
+  end
+
   describe "#elapsed_ms" do
     it "returns a non-negative value" do
       collector = described_class.new

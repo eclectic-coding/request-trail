@@ -39,8 +39,13 @@ gem install request_trail
 RequestTrail auto-inserts itself via a Railtie. No manual middleware configuration is needed — just add the gem to your `Gemfile` and it will log a summary after every request:
 
 ```
-[RequestTrail] GET /orders 142ms | SQL: 7 queries / 38ms
+[RequestTrail] GET /orders 142ms | SQL: 7/38.3ms | Cache: 4 hits, 1 miss, 2.0ms
 ```
+
+The summary line shows:
+- **Total request time** in milliseconds
+- **SQL** — query count and cumulative Active Record time
+- **Cache** — hit/miss/write counts and cumulative cache time
 
 ### Configuration
 
