@@ -10,6 +10,7 @@ AllCops:
     - "bin/release"
     - "README.md"
     - "spec/**/*"
+    - "vendor/**/*"
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes
