@@ -25,6 +25,6 @@ module RequestTrail
     def record_sql: (Float duration_ms) -> Float
     def record_cache_read: (hit: bool, duration_ms: Float) -> Float
     def record_cache_write: (duration_ms: Float) -> Float
-    def elapsed_ms: () -> Float
+    def elapsed_ms: () -> (Float | Integer)
   end
 end
