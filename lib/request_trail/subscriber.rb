@@ -13,7 +13,7 @@ module RequestTrail
     def self.detach
       return unless @attach
 
-      @attach.each { |sub| ActiveSupport::Notifications.unsubscribe(sub) }
+      @attach&.each { |sub| ActiveSupport::Notifications.unsubscribe(sub) }
       @attach = nil
     end
 
