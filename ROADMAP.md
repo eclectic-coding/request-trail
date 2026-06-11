@@ -2,18 +2,6 @@
 
 `request_trail` traces a Rails request through every processing layer — middleware, controller, ActiveRecord, cache — and emits a flame-graph-style summary to the log. This roadmap describes the incremental path to a stable 1.0.0.
 
-## 0.3.0 — Controller & View Tracing
-
-- Subscribe to `process_action.action_controller` and `render_template.action_view`
-- Tiered multi-line breakdown showing time spent in each layer:
-  ```
-  [RequestTrail] GET /orders 142ms
-    controller  104ms
-      sql        38ms (7 queries)
-      cache       2ms (4 hits, 1 miss)
-      view       22ms
-  ```
-
 ## 0.4.0 — Flame Graph Output
 
 - Indented ASCII flame-graph renderer with proportional timing bars
