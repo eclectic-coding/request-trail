@@ -34,7 +34,40 @@ gem install request_trail
 
 ## Usage
 
-TODO: Write usage instructions here
+### Rails
+
+RequestTrail auto-inserts itself via a Railtie. No manual middleware configuration is needed — just add the gem to your `Gemfile` and it will log a summary after every request:
+
+```
+[RequestTrail] GET /orders 142ms | SQL: 7 queries / 38ms
+```
+
+### Configuration
+
+Add an initializer to customize behavior:
+
+```ruby
+# config/initializers/request_trail.rb
+RequestTrail.configure do |config|
+  config.enabled       = true      # set to false to disable entirely
+  config.log_level     = :info     # Rails logger level (:debug, :info, :warn)
+  config.threshold_ms  = 200       # only log requests slower than this (0 = log all)
+  config.logger        = nil       # defaults to Rails.logger
+end
+```
+
+### Non-Rails (plain Rack)
+
+Insert the middleware manually and attach the subscriber:
+
+```ruby
+require "request_trail"
+
+RequestTrail::Subscriber.attach
+
+use RequestTrail::Middleware
+run MyApp
+```
 
 [Back to top](#requesttrail)
 
