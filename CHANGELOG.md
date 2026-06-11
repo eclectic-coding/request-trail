@@ -1,5 +1,12 @@
 ## [Unreleased]
 
+## [0.2.0] - 2026-06-11
+
+### Added
+
+- Cache tracing via `cache_read.active_support` and `cache_write.active_support` notifications — records hit/miss/write counts and cumulative duration per request
+- Summary line now includes a cache segment: `[RequestTrail] GET /orders 142ms | SQL: 7/38.3ms | Cache: 4 hits, 1 miss, 2.0ms`
+
 ## [0.1.0] - 2026-06-11
 
 ### Added
@@ -12,5 +19,6 @@
 - `RequestTrail::Subscriber` — attach/detach API for notification subscriptions
 - `RequestTrail::Collector` — thread-safe per-request event accumulator
 
-[Unreleased]: https://github.com/eclectic-coding/request-trail/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/eclectic-coding/request-trail/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/eclectic-coding/request-trail/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/eclectic-coding/request-trail/releases/tag/v0.1.0

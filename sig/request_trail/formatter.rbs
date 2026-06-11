@@ -1,0 +1,5 @@
+module RequestTrail
+  class Formatter
+    def format: (::Rack::Request request, Collector collector) -> String
+  end
+end

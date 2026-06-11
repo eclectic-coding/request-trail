@@ -1,0 +1,10 @@
+module RequestTrail
+  class Subscriber
+    SQL_EVENT: String
+    CACHE_READ_EVENT: String
+    CACHE_WRITE_EVENT: String
+
+    def self.attach: () -> Array[untyped]
+    def self.detach: () -> nil
+  end
+end
