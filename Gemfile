@@ -15,6 +15,10 @@ gem "rubocop-rake"
 
 gem "bundler-audit"
 
+gem "activesupport"
+gem "rack"
+gem "railties"
+
 group :test do
   gem "simplecov", require: false
   gem "simplecov_json_formatter", require: false

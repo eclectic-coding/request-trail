@@ -1,19 +1,6 @@
 # Roadmap
 
-`request-trail` traces a Rails request through every processing layer — middleware, controller, ActiveRecord, cache — and emits a flame-graph-style summary to the log. This roadmap describes the incremental path from the first usable release to a stable 1.0.0.
-
-## 0.1.0 — Core Foundation
-
-First usable release. Gets the gem into a Rails app and produces immediate value.
-
-- Rack middleware that wraps the full request and records wall-clock duration
-- Rails Railtie for automatic middleware insertion
-- ActiveRecord query tracing via `sql.active_record` notifications (query count + total time)
-- Configuration DSL: `enabled`, `log_level`, `threshold_ms`
-- Plain-text log summary:
-  ```
-  [RequestTrail] GET /orders 142ms | SQL: 7 queries / 38ms
-  ```
+`request_trail` traces a Rails request through every processing layer — middleware, controller, ActiveRecord, cache — and emits a flame-graph-style summary to the log. This roadmap describes the incremental path to a stable 1.0.0.
 
 ## 0.2.0 — Cache Tracing
 
