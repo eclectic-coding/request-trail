@@ -12,5 +12,5 @@
 coverage/
 .claude/
 CLAUDE.md
-spec/dummy/log/
+spec/dummy/log/*.log
 spec/dummy/tmp/
