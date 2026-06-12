@@ -4,7 +4,7 @@ require "logger"
 
 module RequestTrail
   class Configuration
-    attr_writer :logger
+    attr_writer :logger, :formatter
     attr_accessor :enabled, :log_level, :threshold_ms
 
     def initialize
@@ -15,6 +15,10 @@ module RequestTrail
 
     def logger
       @logger ||= rails_logger || Logger.new($stdout)
+    end
+
+    def formatter
+      @formatter ||= RequestTrail::Formatter.new
     end
 
     private

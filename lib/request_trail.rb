@@ -5,6 +5,7 @@ require_relative "request_trail/configuration"
 require_relative "request_trail/collector"
 require_relative "request_trail/subscriber"
 require_relative "request_trail/formatter"
+require_relative "request_trail/formatters/flame_graph"
 require_relative "request_trail/middleware"
 require_relative "request_trail/railtie" if defined?(Rails::Railtie)
 
@@ -21,12 +22,11 @@ module RequestTrail
     end
 
     def formatter
-      @formatter ||= Formatter.new
+      configuration.formatter
     end
 
     def reset!
       @configuration = nil
-      @formatter = nil
     end
   end
 end
