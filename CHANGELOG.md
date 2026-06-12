@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.4.0] - 2026-06-12
+
 ### Added
 
 - `RequestTrail::Formatters::FlameGraph` — opt-in ASCII flame-graph formatter with proportional `█` bars and per-layer ANSI colour (auto-detected via TTY)
@@ -38,7 +40,8 @@
 - `RequestTrail::Subscriber` — attach/detach API for notification subscriptions
 - `RequestTrail::Collector` — thread-safe per-request event accumulator
 
-[Unreleased]: https://github.com/eclectic-coding/request-trail/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/eclectic-coding/request-trail/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/eclectic-coding/request-trail/releases/tag/v0.4.0
 [0.3.0]: https://github.com/eclectic-coding/request-trail/releases/tag/v0.3.0
 [0.2.0]: https://github.com/eclectic-coding/request-trail/releases/tag/v0.2.0
 [0.1.0]: https://github.com/eclectic-coding/request-trail/releases/tag/v0.1.0
