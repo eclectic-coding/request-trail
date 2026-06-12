@@ -1,5 +1,10 @@
 ## [Unreleased]
 
+### Added
+
+- `RequestTrail::Formatters::FlameGraph` — opt-in ASCII flame-graph formatter with proportional `█` bars and per-layer ANSI colour (auto-detected via TTY)
+- Opt in via `config.formatter = RequestTrail::Formatters::FlameGraph.new`
+
 ## [0.3.0] - 2026-06-12
 
 ### Added

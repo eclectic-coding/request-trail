@@ -54,6 +54,28 @@ Without controller data (plain Rack apps), a single-line summary is emitted:
 [RequestTrail] GET /orders 142ms | SQL: 7/38.3ms | Cache: 4 hits, 1 miss, 2.0ms
 ```
 
+### Flame graph formatter
+
+Opt into the ASCII flame-graph formatter for a visual proportional breakdown:
+
+```ruby
+RequestTrail.configure do |config|
+  config.formatter = RequestTrail::Formatters::FlameGraph.new
+end
+```
+
+Output (with ANSI colour when stdout is a TTY):
+
+```
+[RequestTrail] GET /orders 142ms ████████████████████████████████████
+  controller   104ms ████████████████████████████
+    sql         38ms █████████
+    cache        2ms
+    view        22ms █████
+```
+
+Colour scheme: controller = blue, sql = yellow, cache = green, view = magenta. Plain bars are emitted when stdout is not a TTY (e.g. log files, CI).
+
 ### Configuration
 
 Add an initializer to customize behavior:
@@ -65,6 +87,7 @@ RequestTrail.configure do |config|
   config.log_level     = :info     # Rails logger level (:debug, :info, :warn)
   config.threshold_ms  = 200       # only log requests slower than this (0 = log all)
   config.logger        = nil       # defaults to Rails.logger
+  config.formatter     = RequestTrail::Formatters::FlameGraph.new  # optional
 end
 ```
 

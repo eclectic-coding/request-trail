@@ -2,20 +2,6 @@
 
 `request_trail` traces a Rails request through every processing layer — middleware, controller, ActiveRecord, cache — and emits a flame-graph-style summary to the log. This roadmap describes the incremental path to a stable 1.0.0.
 
-## 0.4.0 — Flame Graph Output
-
-- Indented ASCII flame-graph renderer with proportional timing bars
-- Optional ANSI colour with automatic TTY detection
-- Ships as `Request::Trail::Formatters::FlameGraph` alongside the existing plain-text formatter:
-  ```
-  [RequestTrail] GET /orders 142ms ████████████████████████████████████
-    middleware   4ms  █
-    controller 100ms  ████████████████████████
-      sql       38ms    █████████
-      cache      2ms
-      view      22ms    █████
-  ```
-
 ## 0.5.0 — Filtering & Sampling
 
 - Path filters: skip tracing for `/assets`, `/health`, or custom regex patterns

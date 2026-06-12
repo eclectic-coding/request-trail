@@ -1,0 +1,22 @@
+module RequestTrail
+  module Formatters
+    class FlameGraph
+      BAR_WIDTH: Integer
+      BAR_CHAR: String
+      COLORS: Hash[Symbol, String]
+      RESET: String
+
+      def format: (::Rack::Request request, Collector collector) -> String
+
+      private
+
+      def detail_rows: (Collector collector, Float total) -> Array[String]
+      def tiered_rows: (Collector collector, Float total) -> Array[String]
+      def flat_rows: (Collector collector, Float total) -> Array[String]
+      def header_line: (::Rack::Request request, Collector collector, Float total) -> String
+      def row: (String indent, String label, Float duration_ms, Float total_ms, Symbol color_key) -> String
+      def colorized_bar: (Float duration_ms, Float total_ms, Symbol color_key) -> String
+      def colorize?: () -> bool
+    end
+  end
+end
