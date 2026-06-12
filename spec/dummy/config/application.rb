@@ -3,6 +3,7 @@ require_relative "boot"
 require "rails"
 require "action_controller/railtie"
 require "active_support/railtie"
+require "request_trail"
 
 module Dummy
   class Application < Rails::Application
