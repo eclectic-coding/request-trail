@@ -3,6 +3,7 @@ module RequestTrail
     SQL_EVENT: String
     CACHE_READ_EVENT: String
     CACHE_WRITE_EVENT: String
+    ACTION_EVENT: String
 
     self.@attach: Array[untyped]?
 
@@ -14,5 +15,6 @@ module RequestTrail
     def self.sql_subscription: () -> untyped
     def self.cache_read_subscription: () -> untyped
     def self.cache_write_subscription: () -> untyped
+    def self.action_subscription: () -> untyped
   end
 end

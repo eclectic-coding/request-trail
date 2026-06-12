@@ -36,16 +36,23 @@ gem install request_trail
 
 ### Rails
 
-RequestTrail auto-inserts itself via a Railtie. No manual middleware configuration is needed — just add the gem to your `Gemfile` and it will log a summary after every request:
+RequestTrail auto-inserts itself via a Railtie. No manual middleware configuration is needed — just add the gem to your `Gemfile` and it will log a summary after every request.
+
+When controller tracing is active, output is tiered:
+
+```
+[RequestTrail] GET /orders 142ms
+  controller  104ms
+    sql        38ms (7 queries)
+    cache       2ms (4 hits, 1 miss)
+    view       22ms
+```
+
+Without controller data (plain Rack apps), a single-line summary is emitted:
 
 ```
 [RequestTrail] GET /orders 142ms | SQL: 7/38.3ms | Cache: 4 hits, 1 miss, 2.0ms
 ```
-
-The summary line shows:
-- **Total request time** in milliseconds
-- **SQL** — query count and cumulative Active Record time
-- **Cache** — hit/miss/write counts and cumulative cache time
 
 ### Configuration
 
@@ -78,9 +85,42 @@ run MyApp
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+After checking out the repo, run `bin/setup` to install dependencies. Then, run `bundle exec rake` to run the full CI suite (audit + lint + tests). You can also run `bin/console` for an interactive prompt.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+### Running tests
+
+```bash
+bundle exec rake spec          # full test suite
+bundle exec rspec spec/path/to/file_spec.rb  # single file
+bundle exec rspec spec/path/to/file_spec.rb:42  # single example
+```
+
+### Dummy app
+
+A minimal Rails app lives in `spec/dummy` for manual end-to-end testing. It mounts a single `GET /ping` endpoint and logs RequestTrail output to `spec/dummy/log/request_trail.log`.
+
+Start the server:
+
+```bash
+bundle exec rackup spec/dummy/config.ru --port 3000
+```
+
+Then make a request and tail the log:
+
+```bash
+curl http://localhost:3000/ping
+tail -f spec/dummy/log/request_trail.log
+```
+
+You should see tiered output like:
+
+```
+[RequestTrail] GET /ping 33ms
+  controller  3ms
+    sql        0.0ms (0 queries)
+    cache      0.0ms (0 hits, 0 misses)
+    view       2.8ms
+```
 
 [Back to top](#requesttrail)
 

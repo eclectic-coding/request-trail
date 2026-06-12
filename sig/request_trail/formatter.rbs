@@ -1,5 +1,13 @@
 module RequestTrail
   class Formatter
     def format: (::Rack::Request request, Collector collector) -> String
+
+    private
+
+    def tiered_format: (String header, Collector collector) -> String
+    def sql_summary: (Collector collector) -> String
+    def cache_summary: (Collector collector) -> String
+    def sql_count_label: (Collector collector) -> String
+    def cache_detail: (Collector collector) -> String
   end
 end

@@ -1,5 +1,17 @@
 ## [Unreleased]
 
+### Added
+
+- Controller and view tracing via `process_action.action_controller` — records total controller duration and view runtime per request
+- Formatter switches to tiered multi-line output when controller data is present:
+  ```
+  [RequestTrail] GET /orders 142ms
+    controller  104ms
+      sql        38ms (7 queries)
+      cache       2ms (4 hits, 1 miss)
+      view       22ms
+  ```
+
 ## [0.2.0] - 2026-06-11
 
 ### Added
