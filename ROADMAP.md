@@ -8,6 +8,7 @@
 - Slow-request mode: only emit summaries above `threshold_ms`
 - Sampling: trace only N% of requests (useful in production)
 - Custom formatter API: `config.formatter = MyFormatter`
+- FlameGraph colour overrides: `FlameGraph.new(colorize: true, colors: { controller: "\e[36m" })`
 - Rails generator to scaffold the config initializer (`rails generate request_trail:install`)
 
 ## 0.6.0 — Structured Output & Integrations
