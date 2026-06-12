@@ -14,7 +14,7 @@ module RequestTrail
       def detail_rows: (Collector collector, Float total) -> Array[String]
       def tiered_rows: (Collector collector, Float total) -> Array[String]
       def flat_rows: (Collector collector, Float total) -> Array[String]
-      def header_line: (::Rack::Request request, Collector collector, Float total) -> String
+      def header_line: (::Rack::Request request, Collector collector) -> String
       def row: (String indent, String label, Float duration_ms, Float total_ms, Symbol color_key) -> String
       def colorized_bar: (Float duration_ms, Float total_ms, Symbol color_key) -> String
       def colorize?: () -> bool

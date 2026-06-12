@@ -7,7 +7,7 @@ module RequestTrail
       BAR_CHAR  = "█"
 
       COLORS = {
-        header: "\e[97m",
+        header: "\e[1m",
         controller: "\e[34m",
         sql: "\e[33m",
         cache: "\e[32m",
@@ -21,7 +21,7 @@ module RequestTrail
 
       def format(request, collector)
         total = collector.elapsed_ms.to_f
-        lines = [header_line(request, collector, total)] + detail_rows(collector, total)
+        lines = [header_line(request, collector)] + detail_rows(collector, total)
         lines.join("\n")
       end
 
@@ -49,10 +49,13 @@ module RequestTrail
         ]
       end
 
-      def header_line(request, collector, total)
+      def header_line(request, collector)
         elapsed = collector.elapsed_ms.round
-        bar = colorized_bar(total, total, :header)
-        "[RequestTrail] #{request.request_method} #{request.path} #{elapsed}ms #{bar}"
+        bar = BAR_CHAR * BAR_WIDTH
+        line = "[RequestTrail] #{request.request_method} #{request.path} #{elapsed}ms #{bar}"
+        return line unless colorize?
+
+        "#{COLORS[:header]}#{line}#{RESET}"
       end
 
       def row(indent, label, duration_ms, total_ms, color_key)

@@ -104,6 +104,12 @@ RSpec.describe RequestTrail::Formatters::FlameGraph do
   describe "ANSI colour" do
     subject(:formatter) { described_class.new(colorize: true) }
 
+    it "wraps the header line in bold" do
+      output = formatter.format(request, tiered_collector)
+      expect(output.lines.first).to include("\e[1m")
+      expect(output.lines.first).to include("\e[0m")
+    end
+
     it "adds colour codes to bars when colorize: true" do
       output = formatter.format(request, tiered_collector)
       expect(output).to include("\e[")
