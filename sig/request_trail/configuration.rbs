@@ -1,11 +1,13 @@
 module RequestTrail
   class Configuration
     attr_writer logger: ::Logger
+    attr_writer formatter: untyped
     attr_accessor enabled: bool
     attr_accessor log_level: Symbol
     attr_accessor threshold_ms: Numeric
 
     def initialize: () -> void
     def logger: () -> ::Logger
+    def formatter: () -> untyped
   end
 end

@@ -23,21 +23,31 @@ RSpec.describe RequestTrail do
   end
 
   describe ".formatter" do
-    it "returns a Formatter instance" do
+    it "returns a Formatter instance by default" do
       expect(described_class.formatter).to be_a(RequestTrail::Formatter)
     end
 
-    it "memoizes" do
+    it "memoizes via configuration" do
       expect(described_class.formatter).to be(described_class.formatter)
+    end
+
+    it "returns a custom formatter when set via configuration" do
+      custom = RequestTrail::Formatters::FlameGraph.new
+      described_class.configure { |c| c.formatter = custom }
+      expect(described_class.formatter).to be(custom)
     end
   end
 
   describe ".reset!" do
-    it "clears memoized configuration and formatter" do
+    it "clears memoized configuration" do
       original_config = described_class.configuration
-      original_formatter = described_class.formatter
       described_class.reset!
       expect(described_class.configuration).not_to be(original_config)
+    end
+
+    it "clears the formatter via configuration reset" do
+      original_formatter = described_class.formatter
+      described_class.reset!
       expect(described_class.formatter).not_to be(original_formatter)
     end
   end

@@ -26,6 +26,22 @@ RSpec.describe RequestTrail::Configuration do
     end
   end
 
+  describe "#formatter" do
+    it "defaults to a Formatter instance" do
+      expect(config.formatter).to be_a(RequestTrail::Formatter)
+    end
+
+    it "memoizes the default" do
+      expect(config.formatter).to be(config.formatter)
+    end
+
+    it "accepts a custom formatter" do
+      custom = RequestTrail::Formatters::FlameGraph.new
+      config.formatter = custom
+      expect(config.formatter).to be(custom)
+    end
+  end
+
   describe "#logger" do
     context "when explicitly set" do
       let(:custom_logger) { instance_double(Logger) }

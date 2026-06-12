@@ -22,12 +22,11 @@ module RequestTrail
     end
 
     def formatter
-      @formatter ||= Formatter.new
+      configuration.formatter
     end
 
     def reset!
       @configuration = nil
-      @formatter = nil
     end
   end
 end
