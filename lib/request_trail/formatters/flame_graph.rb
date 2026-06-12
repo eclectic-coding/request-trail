@@ -15,6 +15,10 @@ module RequestTrail
       }.freeze
       RESET = "\e[0m"
 
+      def initialize(colorize: false)
+        @colorize = colorize
+      end
+
       def format(request, collector)
         total = collector.elapsed_ms.to_f
         lines = [header_line(request, collector, total)] + detail_rows(collector, total)
@@ -66,7 +70,7 @@ module RequestTrail
       end
 
       def colorize?
-        $stdout.isatty
+        @colorize
       end
     end
   end

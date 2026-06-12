@@ -6,6 +6,7 @@ module RequestTrail
       COLORS: Hash[Symbol, String]
       RESET: String
 
+      def initialize: (?colorize: bool) -> void
       def format: (::Rack::Request request, Collector collector) -> String
 
       private

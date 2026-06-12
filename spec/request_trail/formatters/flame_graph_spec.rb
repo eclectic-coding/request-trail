@@ -36,7 +36,7 @@ RSpec.describe RequestTrail::Formatters::FlameGraph do
     )
   end
 
-  before { allow(formatter).to receive(:colorize?).and_return(false) }
+  # colorize defaults to false — no stubs needed
 
   describe "#format — flat (no controller data)" do
     subject(:output) { formatter.format(request, base_collector) }
@@ -102,9 +102,9 @@ RSpec.describe RequestTrail::Formatters::FlameGraph do
   end
 
   describe "ANSI colour" do
-    before { allow(formatter).to receive(:colorize?).and_return(true) }
+    subject(:formatter) { described_class.new(colorize: true) }
 
-    it "adds colour codes to bars when colorize? is true" do
+    it "adds colour codes to bars when colorize: true" do
       output = formatter.format(request, tiered_collector)
       expect(output).to include("\e[")
       expect(output).to include("\e[0m")
@@ -117,14 +117,20 @@ RSpec.describe RequestTrail::Formatters::FlameGraph do
       expect(output).to include("\e[32m")
       expect(output).to include("\e[35m")
     end
+
+    it "omits colour codes when colorize: false (default)" do
+      plain = described_class.new.format(request, tiered_collector)
+      expect(plain).not_to include("\e[")
+    end
   end
 
   describe "#colorize?" do
-    before { allow(formatter).to receive(:colorize?).and_call_original }
+    it "returns false by default" do
+      expect(described_class.new.send(:colorize?)).to be(false)
+    end
 
-    it "delegates to $stdout.isatty" do
-      allow($stdout).to receive(:isatty).and_return(false)
-      expect(formatter.send(:colorize?)).to be(false)
+    it "returns true when initialized with colorize: true" do
+      expect(described_class.new(colorize: true).send(:colorize?)).to be(true)
     end
   end
 
