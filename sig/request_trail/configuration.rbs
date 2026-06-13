@@ -1,7 +1,7 @@
 module RequestTrail
   class Configuration
     attr_writer logger: ::Logger
-    attr_writer formatter: untyped
+    attr_writer formatter: Formatters::Base
     attr_accessor enabled: bool
     attr_accessor log_level: Symbol
     attr_accessor threshold_ms: Numeric
@@ -10,7 +10,7 @@ module RequestTrail
 
     def initialize: () -> void
     def logger: () -> ::Logger
-    def formatter: () -> untyped
+    def formatter: () -> Formatters::Base
     def ignored_path?: (String path) -> bool
     def sampled?: () -> bool
   end
