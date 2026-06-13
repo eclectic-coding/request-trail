@@ -2,6 +2,8 @@
 
 module RequestTrail
   class Formatter
+    include Formatters::Base
+
     def format(request, collector)
       header = "[RequestTrail] #{request.request_method} #{request.path} #{collector.elapsed_ms.round}ms"
       return tiered_format(header, collector) if collector.action_duration_ms.positive?

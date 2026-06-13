@@ -12,6 +12,7 @@ Middleware that traces a request through all the layers (middleware, controller,
 
 - [Installation](#installation)
 - [Usage](#usage)
+- [Custom formatters](#custom-formatters)
 - [Development](#development)
 - [Contributing](#contributing)
 - [License](#license)
@@ -75,6 +76,28 @@ Output (with ANSI colour when stdout is a TTY):
 ```
 
 Colour scheme: controller = blue, sql = yellow, cache = green, view = magenta. Plain bars are emitted when stdout is not a TTY (e.g. log files, CI).
+
+### Custom formatters
+
+Any object that responds to `format(request, collector)` and returns a `String` can be used as a formatter. Include `RequestTrail::Formatters::Base` to make the contract explicit:
+
+```ruby
+class MyFormatter
+  include RequestTrail::Formatters::Base
+
+  def format(request, collector)
+    "#{request.request_method} #{request.path} took #{collector.elapsed_ms.round}ms"
+  end
+end
+
+RequestTrail.configure do |config|
+  config.formatter = MyFormatter.new
+end
+```
+
+`format` receives:
+- `request` — a `Rack::Request` with the current HTTP request
+- `collector` — a `RequestTrail::Collector` exposing `elapsed_ms`, `sql_count`, `sql_duration_ms`, `cache_hits`, `cache_misses`, `cache_duration_ms`, `action_duration_ms`, and `view_duration_ms`
 
 ### Configuration
 

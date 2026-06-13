@@ -3,6 +3,8 @@
 module RequestTrail
   module Formatters
     class FlameGraph
+      include Base
+
       BAR_WIDTH = 36
       BAR_CHAR  = "█"
 
