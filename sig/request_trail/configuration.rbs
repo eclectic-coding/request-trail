@@ -5,9 +5,13 @@ module RequestTrail
     attr_accessor enabled: bool
     attr_accessor log_level: Symbol
     attr_accessor threshold_ms: Numeric
+    attr_accessor ignore_paths: Array[String | Regexp]
+    attr_accessor sample_rate: Float
 
     def initialize: () -> void
     def logger: () -> ::Logger
     def formatter: () -> untyped
+    def ignored_path?: (String path) -> bool
+    def sampled?: () -> bool
   end
 end

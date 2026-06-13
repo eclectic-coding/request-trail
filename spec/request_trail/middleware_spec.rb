@@ -39,6 +39,47 @@ RSpec.describe RequestTrail::Middleware do
       end
     end
 
+    context "when the path matches ignore_paths" do
+      before { RequestTrail.configuration.ignore_paths = ["/health", /^\/assets/] }
+
+      it "passes through without tracing for an exact string match" do
+        health_env = Rack::MockRequest.env_for("/health", method: "GET")
+        middleware.call(health_env)
+        expect(logger).not_to have_received(:info)
+      end
+
+      it "passes through without tracing for a regex match" do
+        asset_env = Rack::MockRequest.env_for("/assets/app.js", method: "GET")
+        middleware.call(asset_env)
+        expect(logger).not_to have_received(:info)
+      end
+
+      it "still returns the response" do
+        health_env = Rack::MockRequest.env_for("/health", method: "GET")
+        status, = middleware.call(health_env)
+        expect(status).to eq(200)
+      end
+
+      it "still traces paths not in ignore_paths" do
+        middleware.call(env)
+        expect(logger).to have_received(:info)
+      end
+    end
+
+    context "when the request is not sampled" do
+      before { allow(RequestTrail.configuration).to receive(:sampled?).and_return(false) }
+
+      it "passes through without tracing" do
+        middleware.call(env)
+        expect(logger).not_to have_received(:info)
+      end
+
+      it "still returns the response" do
+        status, = middleware.call(env)
+        expect(status).to eq(200)
+      end
+    end
+
     context "when threshold_ms is set above request duration" do
       before { RequestTrail.configuration.threshold_ms = 100_000 }
 
