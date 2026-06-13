@@ -55,6 +55,28 @@ Without controller data (plain Rack apps), a single-line summary is emitted:
 [RequestTrail] GET /orders 142ms | SQL: 7/38.3ms | Cache: 4 hits, 1 miss, 2.0ms
 ```
 
+### JSON formatter
+
+Emit structured JSON for log aggregators (Datadog, Splunk, etc.):
+
+```ruby
+RequestTrail.configure do |config|
+  config.formatter = RequestTrail::Formatters::JSON.new
+end
+```
+
+Example output (flat request):
+
+```json
+{"method":"GET","path":"/orders","duration_ms":142.5,"sql":{"count":7,"duration_ms":38.0},"cache":{"hits":4,"misses":1,"writes":0,"duration_ms":2.0}}
+```
+
+When controller data is present a `"controller"` key is added:
+
+```json
+{"method":"GET","path":"/orders","duration_ms":142.5,"sql":{"count":7,"duration_ms":38.0},"cache":{"hits":4,"misses":1,"writes":0,"duration_ms":2.0},"controller":{"duration_ms":104.0,"view_duration_ms":22.0}}
+```
+
 ### Flame graph formatter
 
 Opt into the ASCII flame-graph formatter for a visual proportional breakdown:

@@ -7,6 +7,7 @@ require_relative "request_trail/subscriber"
 require_relative "request_trail/formatters/base"
 require_relative "request_trail/formatter"
 require_relative "request_trail/formatters/flame_graph"
+require_relative "request_trail/formatters/json"
 require_relative "request_trail/middleware"
 require_relative "request_trail/railtie" if defined?(Rails::Railtie)
 

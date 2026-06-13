@@ -1,0 +1,15 @@
+module RequestTrail
+  module Formatters
+    class JSON
+      include Base
+
+      def format: (::Rack::Request request, Collector collector) -> String
+
+      private
+
+      def base_payload: (::Rack::Request request, Collector collector) -> Hash[Symbol, untyped]
+      def cache_payload: (Collector collector) -> Hash[Symbol, untyped]
+      def controller_payload: (Collector collector) -> Hash[Symbol, untyped]
+    end
+  end
+end
