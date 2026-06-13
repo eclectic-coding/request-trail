@@ -1,0 +1,12 @@
+# frozen_string_literal: true
+
+RequestTrail.configure do |config|
+  config.enabled      = true    # set to false to disable entirely
+  config.log_level    = :info   # :debug, :info, :warn
+  config.threshold_ms = 0       # only log requests slower than this (0 = log all)
+  config.ignore_paths = []      # e.g. ["/health", /^\/assets/]
+  config.sample_rate  = 1.0     # 0.0–1.0; 1.0 = trace every request
+
+  # config.logger    = Rails.logger  # defaults to Rails.logger
+  # config.formatter = RequestTrail::Formatters::FlameGraph.new(colorize: true)
+end

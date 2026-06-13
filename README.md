@@ -110,6 +110,16 @@ end
 - `request` — a `Rack::Request` with the current HTTP request
 - `collector` — a `RequestTrail::Collector` exposing `elapsed_ms`, `sql_count`, `sql_duration_ms`, `cache_hits`, `cache_misses`, `cache_duration_ms`, `action_duration_ms`, and `view_duration_ms`
 
+### Installation generator
+
+Run the generator to scaffold the initializer:
+
+```bash
+rails generate request_trail:install
+```
+
+This creates `config/initializers/request_trail.rb` pre-populated with all available options and their defaults.
+
 ### Configuration
 
 Add an initializer to customize behavior:
