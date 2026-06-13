@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+### Added
+
+- `RequestTrail::Formatters::JSON` — structured JSON formatter for log aggregators (Datadog, Splunk, etc.); opt in via `config.formatter = RequestTrail::Formatters::JSON.new`
+
 ## [0.5.0] - 2026-06-13
 
 ### Added

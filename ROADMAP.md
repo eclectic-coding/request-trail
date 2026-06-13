@@ -4,7 +4,6 @@
 
 ## 0.6.0 — Structured Output & Integrations
 
-- JSON formatter for log aggregators (Datadog, Splunk, etc.)
 - `config.logger` override for writing to a separate file or custom appender
 - Rails log tags integration
 - Optional Sidekiq adapter for tracing background job execution layers
