@@ -8,6 +8,7 @@ module RequestTrail
 
     def call(env)
       return @app.call(env) unless RequestTrail.configuration.enabled
+      return @app.call(env) if RequestTrail.configuration.ignored_path?(env["PATH_INFO"])
 
       Collector.start
       response = @app.call(env)

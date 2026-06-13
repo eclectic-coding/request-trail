@@ -5,12 +5,17 @@ require "logger"
 module RequestTrail
   class Configuration
     attr_writer :logger, :formatter
-    attr_accessor :enabled, :log_level, :threshold_ms
+    attr_accessor :enabled, :log_level, :threshold_ms, :ignore_paths
 
     def initialize
       @enabled = true
       @log_level = :info
       @threshold_ms = 0
+      @ignore_paths = []
+    end
+
+    def ignored_path?(path)
+      ignore_paths.any? { |pattern| path_matches?(pattern, path) }
     end
 
     def logger
@@ -22,6 +27,13 @@ module RequestTrail
     end
 
     private
+
+    def path_matches?(pattern, path)
+      case pattern
+      when Regexp then pattern.match?(path)
+      else pattern == path
+      end
+    end
 
     def rails_logger
       Rails.logger if defined?(Rails) && Rails.respond_to?(:logger) && Rails.logger
