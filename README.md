@@ -88,6 +88,12 @@ RequestTrail.configure do |config|
   config.threshold_ms  = 200       # only log requests slower than this (0 = log all)
   config.logger        = nil       # defaults to Rails.logger
   config.formatter     = RequestTrail::Formatters::FlameGraph.new  # optional
+
+  # skip tracing for specific paths (strings = exact match, regexes = pattern match)
+  config.ignore_paths  = ["/health", "/up", /^\/assets/]
+
+  # trace only N% of requests — useful in high-traffic production environments
+  config.sample_rate   = 0.1      # 0.0 = never, 1.0 = always (default)
 end
 ```
 
