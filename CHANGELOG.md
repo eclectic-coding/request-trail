@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.5.0] - 2026-06-13
+
 ### Added
 
 - `config.ignore_paths` — skip tracing for specific paths; accepts strings (exact match) or regexes (e.g. `["/health", /^\/assets/]`)
@@ -48,7 +50,8 @@
 - `RequestTrail::Subscriber` — attach/detach API for notification subscriptions
 - `RequestTrail::Collector` — thread-safe per-request event accumulator
 
-[Unreleased]: https://github.com/eclectic-coding/request-trail/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/eclectic-coding/request-trail/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/eclectic-coding/request-trail/releases/tag/v0.5.0
 [0.4.0]: https://github.com/eclectic-coding/request-trail/releases/tag/v0.4.0
 [0.3.0]: https://github.com/eclectic-coding/request-trail/releases/tag/v0.3.0
 [0.2.0]: https://github.com/eclectic-coding/request-trail/releases/tag/v0.2.0
