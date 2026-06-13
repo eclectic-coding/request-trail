@@ -66,6 +66,20 @@ RSpec.describe RequestTrail::Middleware do
       end
     end
 
+    context "when the request is not sampled" do
+      before { allow(RequestTrail.configuration).to receive(:sampled?).and_return(false) }
+
+      it "passes through without tracing" do
+        middleware.call(env)
+        expect(logger).not_to have_received(:info)
+      end
+
+      it "still returns the response" do
+        status, = middleware.call(env)
+        expect(status).to eq(200)
+      end
+    end
+
     context "when threshold_ms is set above request duration" do
       before { RequestTrail.configuration.threshold_ms = 100_000 }
 
