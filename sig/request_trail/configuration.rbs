@@ -10,7 +10,7 @@ module RequestTrail
 
     def initialize: () -> void
     def logger: () -> ::Logger
-    def formatter: () -> untyped
+    def formatter: () -> Formatters::Base
     def ignored_path?: (String path) -> bool
     def sampled?: () -> bool
   end
