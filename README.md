@@ -77,6 +77,17 @@ Output (with ANSI colour when stdout is a TTY):
 
 Colour scheme: controller = blue, sql = yellow, cache = green, view = magenta. Plain bars are emitted when stdout is not a TTY (e.g. log files, CI).
 
+Override any layer's ANSI code with the `colors:` option:
+
+```ruby
+RequestTrail::Formatters::FlameGraph.new(
+  colorize: true,
+  colors: { controller: "\e[36m", sql: "\e[31m" }
+)
+```
+
+Unspecified layers keep their defaults.
+
 ### Custom formatters
 
 Any object that responds to `format(request, collector)` and returns a `String` can be used as a formatter. Include `RequestTrail::Formatters::Base` to make the contract explicit:

@@ -5,6 +5,7 @@
 - `config.ignore_paths` — skip tracing for specific paths; accepts strings (exact match) or regexes (e.g. `["/health", /^\/assets/]`)
 - `config.sample_rate` — trace only N% of requests; accepts a float between `0.0` and `1.0` (default `1.0` = 100%)
 - `RequestTrail::Formatters::Base` — mixin that documents the formatter duck-type contract; include it in custom formatters and implement `#format(request, collector) -> String`
+- `FlameGraph` colour overrides — pass `colors: { controller: "\e[36m" }` to `FlameGraph.new` to replace per-layer ANSI codes; unspecified layers keep their defaults
 
 ## [0.4.0] - 2026-06-12
 
