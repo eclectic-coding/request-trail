@@ -130,6 +130,27 @@ RSpec.describe RequestTrail::Formatters::FlameGraph do
     end
   end
 
+  describe "colour overrides" do
+    subject(:formatter) { described_class.new(colorize: true, colors: { controller: "\e[36m" }) }
+
+    it "uses the overridden colour for the specified layer" do
+      output = formatter.format(request, tiered_collector)
+      expect(output).to include("\e[36m")
+    end
+
+    it "keeps default colours for layers not overridden" do
+      output = formatter.format(request, tiered_collector)
+      expect(output).to include("\e[33m") # sql default
+      expect(output).to include("\e[32m") # cache default
+      expect(output).to include("\e[35m") # view default
+    end
+
+    it "does not include the replaced default colour" do
+      output = formatter.format(request, tiered_collector)
+      expect(output).not_to include("\e[34m") # controller default replaced
+    end
+  end
+
   describe "#colorize?" do
     it "returns false by default" do
       expect(described_class.new.send(:colorize?)).to be(false)

@@ -17,8 +17,9 @@ module RequestTrail
       }.freeze
       RESET = "\e[0m"
 
-      def initialize(colorize: false)
+      def initialize(colorize: false, colors: {})
         @colorize = colorize
+        @colors = COLORS.merge(colors)
       end
 
       def format(request, collector)
@@ -57,7 +58,7 @@ module RequestTrail
         line = "[RequestTrail] #{request.request_method} #{request.path} #{elapsed}ms #{bar}"
         return line unless colorize?
 
-        "#{COLORS[:header]}#{line}#{RESET}"
+        "#{@colors[:header]}#{line}#{RESET}"
       end
 
       def row(indent, label, duration_ms, total_ms, color_key)
@@ -71,7 +72,7 @@ module RequestTrail
         bar = BAR_CHAR * width
         return bar unless colorize? && width.positive?
 
-        "#{COLORS[color_key]}#{bar}#{RESET}"
+        "#{@colors[color_key]}#{bar}#{RESET}"
       end
 
       def colorize?
