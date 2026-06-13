@@ -2,10 +2,6 @@
 
 `request_trail` traces a Rails request through every processing layer — middleware, controller, ActiveRecord, cache — and emits a flame-graph-style summary to the log. This roadmap describes the incremental path to a stable 1.0.0.
 
-## 0.5.0 — Filtering & Sampling
-
-- Rails generator to scaffold the config initializer (`rails generate request_trail:install`)
-
 ## 0.6.0 — Structured Output & Integrations
 
 - JSON formatter for log aggregators (Datadog, Splunk, etc.)
