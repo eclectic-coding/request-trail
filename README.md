@@ -24,6 +24,7 @@ Middleware that traces a request through all the layers (middleware, controller,
   - [Installation generator](#installation-generator)
   - [Configuration](#configuration)
   - [Non-Rails (plain Rack)](#non-rails-plain-rack)
+- [Stable API](#stable-api)
 - [Development](#development)
 - [Contributing](#contributing)
 - [License](#license)
@@ -298,6 +299,26 @@ RequestTrail::Subscriber.attach
 use RequestTrail::Middleware
 run MyApp
 ```
+
+[Back to top](#requesttrail)
+
+## Stable API
+
+As of v1.0.0 the following interfaces are frozen and will not change in a breaking way within the 1.x series:
+
+| Interface | Notes |
+|-----------|-------|
+| `RequestTrail.configure { \|c\| ... }` | Configuration DSL — all `config.*=` setters |
+| `RequestTrail::Middleware` | Rack middleware; constructor signature `Middleware.new(app)` |
+| `RequestTrail::Railtie` | Auto-inserted; no public API beyond being present |
+| `RequestTrail::Subscriber.attach` / `.detach` | Notification subscription lifecycle |
+| `RequestTrail::Collector` attr readers | `elapsed_ms`, `sql_count`, `sql_duration_ms`, `cache_hits`, `cache_misses`, `cache_writes`, `cache_duration_ms`, `action_duration_ms`, `view_duration_ms`, `http_count`, `http_duration_ms` |
+| `RequestTrail::Formatters::Base` | Formatter duck-type contract: `#format(request, collector) -> String` |
+| `RequestTrail::Formatters::FlameGraph` | Constructor: `FlameGraph.new(colorize:, colors:)` |
+| `RequestTrail::Formatters::JSON` | Constructor: `JSON.new` |
+| `RequestTrail::SidekiqMiddleware` | Sidekiq server middleware |
+| `RequestTrail::ActiveJobSubscriber` | Module to include in `ApplicationJob` |
+| `RequestTrail.log_tag` | Returns a proc suitable for `config.log_tags` |
 
 [Back to top](#requesttrail)
 

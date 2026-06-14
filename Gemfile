@@ -13,6 +13,7 @@ gem "rspec", "~> 3.0"
 gem "rubocop", "~> 1.21"
 gem "rubocop-rake"
 
+gem "benchmark-ips", require: false
 gem "bundler-audit"
 
 gem "activesupport"
