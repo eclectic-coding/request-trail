@@ -1,5 +1,16 @@
 ## [Unreleased]
 
+## [1.0.0] - unreleased
+
+### Added
+
+- Overhead benchmark suite (`benchmarks/overhead.rb`) — measures per-request latency added by the middleware; target < 1ms (actual: ~0.003ms)
+- Stable API documentation — README lists all public interfaces frozen for the 1.x series
+
+### Changed
+
+- Gemspec summary and description updated to reflect the full feature set
+
 ## [0.7.0] - 2026-06-14
 
 ### Added
