@@ -19,6 +19,7 @@ Middleware that traces a request through all the layers (middleware, controller,
   - [Rails log tags](#rails-log-tags)
   - [Sidekiq](#sidekiq)
   - [ActiveJob](#activejob)
+  - [Outbound HTTP tracking](#outbound-http-tracking)
   - [Custom formatters](#custom-formatters)
   - [Installation generator](#installation-generator)
   - [Configuration](#configuration)
@@ -202,6 +203,33 @@ All configuration options (`threshold_ms`, `sample_rate`, `n_plus_one_threshold`
 
 **`ActiveJobSubscriber` vs `SidekiqMiddleware`:** Use `ActiveJobSubscriber` when you want adapter-agnostic tracing via `ApplicationJob` inheritance. Use `SidekiqMiddleware` when running Sidekiq workers that do *not* go through ActiveJob (i.e., plain `Sidekiq::Worker` classes).
 
+### Outbound HTTP tracking
+
+Outbound HTTP calls made via Faraday are tracked automatically once `Subscriber.attach` is called (which happens via the Railtie in Rails apps). No additional configuration is needed — the `request.faraday` notification is subscribed alongside SQL and cache events.
+
+Plain text output includes an `HTTP` segment:
+
+```
+[RequestTrail] GET /orders 142ms | SQL: 7/38.3ms | Cache: 4 hits, 1 miss, 2.0ms | HTTP: 2/45.0ms
+```
+
+Tiered output adds an `http` row under the controller:
+
+```
+[RequestTrail] GET /orders 142ms
+  controller  104ms
+    sql        38ms (7 queries)
+    cache       2ms (4 hits, 1 miss)
+    view       22ms
+    http       45ms (2 calls)
+```
+
+JSON output includes an `"http"` key:
+
+```json
+{"method":"GET","path":"/orders","duration_ms":142.5,...,"http":{"count":2,"duration_ms":45.0}}
+```
+
 ### Custom formatters
 
 Any object that responds to `format(request, collector)` and returns a `String` can be used as a formatter. Include `RequestTrail::Formatters::Base` to make the contract explicit:
@@ -222,7 +250,7 @@ end
 
 `format` receives:
 - `request` — a `Rack::Request` with the current HTTP request
-- `collector` — a `RequestTrail::Collector` exposing `elapsed_ms`, `sql_count`, `sql_duration_ms`, `cache_hits`, `cache_misses`, `cache_duration_ms`, `action_duration_ms`, and `view_duration_ms`
+- `collector` — a `RequestTrail::Collector` exposing `elapsed_ms`, `sql_count`, `sql_duration_ms`, `cache_hits`, `cache_misses`, `cache_duration_ms`, `action_duration_ms`, `view_duration_ms`, `http_count`, and `http_duration_ms`
 
 ### Installation generator
 

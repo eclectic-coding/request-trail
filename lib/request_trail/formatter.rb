@@ -9,7 +9,7 @@ module RequestTrail
       header = "[RequestTrail] #{request.request_method} #{request.path} #{collector.elapsed_ms.round}ms#{n1}"
       return tiered_format(header, collector) if collector.action_duration_ms.positive?
 
-      "#{header} | #{sql_summary(collector)} | #{cache_summary(collector)}"
+      "#{header} | #{sql_summary(collector)} | #{cache_summary(collector)} | #{http_summary(collector)}"
     end
 
     private
@@ -20,7 +20,8 @@ module RequestTrail
         "  controller  #{collector.action_duration_ms.round}ms",
         "    sql        #{collector.sql_duration_ms.round(1)}ms (#{sql_count_label(collector)})",
         "    cache      #{collector.cache_duration_ms.round(1)}ms (#{cache_detail(collector)})",
-        "    view       #{collector.view_duration_ms.round(1)}ms"
+        "    view       #{collector.view_duration_ms.round(1)}ms",
+        "    http       #{collector.http_duration_ms.round(1)}ms (#{http_count_label(collector)})"
       ].join("\n")
     end
 
@@ -33,6 +34,14 @@ module RequestTrail
       miss_label = collector.cache_misses == 1 ? "miss" : "misses"
       duration   = collector.cache_duration_ms.round(1)
       "Cache: #{collector.cache_hits} #{hit_label}, #{collector.cache_misses} #{miss_label}, #{duration}ms"
+    end
+
+    def http_summary(collector)
+      "HTTP: #{collector.http_count}/#{collector.http_duration_ms.round(1)}ms"
+    end
+
+    def http_count_label(collector)
+      collector.http_count == 1 ? "1 call" : "#{collector.http_count} calls"
     end
 
     def sql_count_label(collector)

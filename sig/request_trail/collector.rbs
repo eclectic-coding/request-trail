@@ -20,6 +20,8 @@ module RequestTrail
     attr_reader cache_duration_ms: Float
     attr_reader action_duration_ms: Float
     attr_reader view_duration_ms: Float
+    attr_reader http_count: Integer
+    attr_reader http_duration_ms: Float
 
     def self.current: () -> Collector?
     def self.start: () -> Collector
@@ -30,6 +32,7 @@ module RequestTrail
     def record_cache_read: (hit: bool, duration_ms: Float) -> Float
     def record_cache_write: (duration_ms: Float) -> Float
     def record_action: (duration_ms: Float, view_duration_ms: Float) -> Float
+    def record_http: (duration_ms: Float) -> Float
     def elapsed_ms: () -> (Float | Integer)
   end
 end

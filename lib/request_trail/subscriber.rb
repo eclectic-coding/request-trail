@@ -6,9 +6,11 @@ module RequestTrail
     CACHE_READ_EVENT  = "cache_read.active_support"
     CACHE_WRITE_EVENT = "cache_write.active_support"
     ACTION_EVENT      = "process_action.action_controller"
+    HTTP_EVENT        = "request.faraday"
 
     def self.attach
-      @attach ||= [sql_subscription, cache_read_subscription, cache_write_subscription, action_subscription]
+      @attach ||= [sql_subscription, cache_read_subscription, cache_write_subscription,
+                   action_subscription, http_subscription]
     end
 
     def self.detach
@@ -49,6 +51,13 @@ module RequestTrail
           duration_ms: event.duration,
           view_duration_ms: event.payload.fetch(:view_runtime, 0.0)
         )
+      end
+    end
+
+    private_class_method def self.http_subscription
+      ActiveSupport::Notifications.subscribe(HTTP_EVENT) do |*args|
+        event = ActiveSupport::Notifications::Event.new(*args)
+        Collector.current&.record_http(duration_ms: event.duration)
       end
     end
   end

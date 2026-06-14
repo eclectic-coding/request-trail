@@ -13,7 +13,8 @@ module RequestTrail
         controller: "\e[34m",
         sql: "\e[33m",
         cache: "\e[32m",
-        view: "\e[35m"
+        view: "\e[35m",
+        http: "\e[36m"
       }.freeze
       RESET = "\e[0m"
 
@@ -41,14 +42,16 @@ module RequestTrail
           row("  ", "controller", collector.action_duration_ms, total, :controller),
           row("    ", "sql",      collector.sql_duration_ms,    total, :sql),
           row("    ", "cache",    collector.cache_duration_ms,  total, :cache),
-          row("    ", "view",     collector.view_duration_ms,   total, :view)
+          row("    ", "view",     collector.view_duration_ms,   total, :view),
+          row("    ", "http",     collector.http_duration_ms,   total, :http)
         ]
       end
 
       def flat_rows(collector, total)
         [
           row("  ", "sql",   collector.sql_duration_ms,   total, :sql),
-          row("  ", "cache", collector.cache_duration_ms, total, :cache)
+          row("  ", "cache", collector.cache_duration_ms, total, :cache),
+          row("  ", "http",  collector.http_duration_ms,  total, :http)
         ]
       end
 

@@ -17,7 +17,9 @@ RSpec.describe RequestTrail::Formatters::FlameGraph do
       cache_writes: 0,
       cache_duration_ms: 5.0,
       action_duration_ms: 0.0,
-      view_duration_ms: 0.0
+      view_duration_ms: 0.0,
+      http_count: 0,
+      http_duration_ms: 0.0
     )
   end
 
@@ -32,7 +34,9 @@ RSpec.describe RequestTrail::Formatters::FlameGraph do
       cache_writes: 0,
       cache_duration_ms: 2.0,
       action_duration_ms: 80.0,
-      view_duration_ms: 22.0
+      view_duration_ms: 22.0,
+      http_count: 1,
+      http_duration_ms: 10.0
     )
   end
 
@@ -57,8 +61,12 @@ RSpec.describe RequestTrail::Formatters::FlameGraph do
       expect(output).to include("cache")
     end
 
-    it "is 3 lines (header + sql + cache)" do
-      expect(output.lines.count).to eq(3)
+    it "includes an http row" do
+      expect(output).to include("http")
+    end
+
+    it "is 4 lines (header + sql + cache + http)" do
+      expect(output.lines.count).to eq(4)
     end
 
     it "proportionally scales the sql bar" do
@@ -81,8 +89,12 @@ RSpec.describe RequestTrail::Formatters::FlameGraph do
       expect(output).to include("view")
     end
 
-    it "is 5 lines (header + controller + sql + cache + view)" do
-      expect(output.lines.count).to eq(5)
+    it "includes an http row" do
+      expect(output).to include("http")
+    end
+
+    it "is 6 lines (header + controller + sql + cache + view + http)" do
+      expect(output.lines.count).to eq(6)
     end
 
     it "controller row is indented 2 spaces" do

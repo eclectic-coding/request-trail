@@ -4,6 +4,7 @@
 
 - `config.n_plus_one_threshold` — flag requests where SQL query count meets or exceeds a threshold; appends `[N+1?]` to the header line in plain-text and FlameGraph output, and sets `"n_plus_one": true` in JSON output (default: `nil` = disabled)
 - `RequestTrail::ActiveJobSubscriber` — module to include in `ApplicationJob`; adds an `around_perform` hook that traces background job execution across all ActiveJob backends (GoodJob, Solid Queue, DelayedJob, Sidekiq-via-ActiveJob)
+- Outbound HTTP tracking — `Subscriber` subscribes to `request.faraday` notifications; `http_count` and `http_duration_ms` are added to `Collector` and surfaced in all formatters (plain text, FlameGraph, JSON)
 
 ## [0.6.0] - 2026-06-14
 

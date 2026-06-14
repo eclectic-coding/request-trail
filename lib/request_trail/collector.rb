@@ -6,7 +6,8 @@ module RequestTrail
 
     attr_reader :sql_count, :sql_duration_ms,
                 :cache_hits, :cache_misses, :cache_writes, :cache_duration_ms,
-                :action_duration_ms, :view_duration_ms
+                :action_duration_ms, :view_duration_ms,
+                :http_count, :http_duration_ms
 
     def self.current
       Thread.current[THREAD_KEY]
@@ -30,6 +31,8 @@ module RequestTrail
       @cache_duration_ms = 0.0
       @action_duration_ms = 0.0
       @view_duration_ms = 0.0
+      @http_count = 0
+      @http_duration_ms = 0.0
     end
 
     def record_sql(duration_ms)
@@ -50,6 +53,11 @@ module RequestTrail
     def record_action(duration_ms:, view_duration_ms:)
       @action_duration_ms = duration_ms
       @view_duration_ms = view_duration_ms
+    end
+
+    def record_http(duration_ms:)
+      @http_count += 1
+      @http_duration_ms += duration_ms
     end
 
     def elapsed_ms
