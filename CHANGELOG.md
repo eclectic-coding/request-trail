@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+### Added
+
+- `config.n_plus_one_threshold` — flag requests where SQL query count meets or exceeds a threshold; appends `[N+1?]` to the header line in plain-text and FlameGraph output, and sets `"n_plus_one": true` in JSON output (default: `nil` = disabled)
+
 ## [0.6.0] - 2026-06-14
 
 ### Added
