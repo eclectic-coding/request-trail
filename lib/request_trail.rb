@@ -8,7 +8,9 @@ require_relative "request_trail/formatters/base"
 require_relative "request_trail/formatter"
 require_relative "request_trail/formatters/flame_graph"
 require_relative "request_trail/formatters/json"
+require_relative "request_trail/log_tag"
 require_relative "request_trail/middleware"
+require_relative "request_trail/sidekiq_middleware" if defined?(Sidekiq)
 require_relative "request_trail/railtie" if defined?(Rails::Railtie)
 
 module RequestTrail
@@ -25,6 +27,10 @@ module RequestTrail
 
     def formatter
       configuration.formatter
+    end
+
+    def log_tag
+      ->(_request) { LogTag::Value.new }
     end
 
     def reset!
