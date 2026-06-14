@@ -1,10 +1,3 @@
 # Roadmap
 
-`request_trail` traces a Rails request through every processing layer — middleware, controller, ActiveRecord, cache — and emits a flame-graph-style summary to the log. This roadmap describes the incremental path to a stable 1.0.0.
-
-## 1.0.0 — Stable Release
-
-- Frozen public API (`Request::Trail.configure`, middleware interface, formatter interface)
-- 100% test coverage
-- Overhead benchmark suite (target: < 1ms added latency per request)
-- Full usage documentation with real-world examples
+`request_trail` traces a Rails request through every processing layer — middleware, controller, ActiveRecord, cache — and emits a flame-graph-style summary to the log. The gem reached its stable 1.0.0 milestone; future work will be tracked via GitHub Issues.
