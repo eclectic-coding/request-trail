@@ -4,7 +4,6 @@
 
 ## 0.7.0 — Observability Completeness
 
-- ActiveJob adapter — generic around-perform hook covering GoodJob, Solid Queue, DelayedJob, and Sidekiq-via-ActiveJob
 - Outbound HTTP tracking — subscribe to `request.faraday` notifications; surface call count and duration in all formatters
 
 ## 1.0.0 — Stable Release

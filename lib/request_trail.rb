@@ -10,6 +10,7 @@ require_relative "request_trail/formatters/flame_graph"
 require_relative "request_trail/formatters/json"
 require_relative "request_trail/log_tag"
 require_relative "request_trail/middleware"
+require_relative "request_trail/active_job_subscriber" if defined?(ActiveJob)
 require_relative "request_trail/sidekiq_middleware" if defined?(Sidekiq)
 require_relative "request_trail/railtie" if defined?(Rails::Railtie)
 

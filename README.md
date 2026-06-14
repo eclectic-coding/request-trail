@@ -18,6 +18,7 @@ Middleware that traces a request through all the layers (middleware, controller,
   - [N+1 detection](#n1-detection)
   - [Rails log tags](#rails-log-tags)
   - [Sidekiq](#sidekiq)
+  - [ActiveJob](#activejob)
   - [Custom formatters](#custom-formatters)
   - [Installation generator](#installation-generator)
   - [Configuration](#configuration)
@@ -179,6 +180,27 @@ Output uses `JOB` as the method and includes the worker class and job ID:
 ```
 
 All configuration options (`threshold_ms`, `sample_rate`, `n_plus_one_threshold`, `formatter`, etc.) apply to Sidekiq jobs the same way they apply to HTTP requests.
+
+### ActiveJob
+
+Include `RequestTrail::ActiveJobSubscriber` in `ApplicationJob` to trace background jobs across all ActiveJob backends (GoodJob, Solid Queue, DelayedJob, Sidekiq-via-ActiveJob, etc.):
+
+```ruby
+# app/jobs/application_job.rb
+class ApplicationJob < ActiveJob::Base
+  include RequestTrail::ActiveJobSubscriber
+end
+```
+
+All jobs that inherit from `ApplicationJob` are then automatically traced. Output uses `JOB` as the method and includes the job class and `job_id`:
+
+```
+[RequestTrail] JOB OrderSyncJob jid:476b61a6-ae85-4ae8-ae64-bf92e8cfeefc 42ms | SQL: 5/35.0ms | Cache: 0 hits, 0 misses, 0.0ms
+```
+
+All configuration options (`threshold_ms`, `sample_rate`, `n_plus_one_threshold`, `formatter`, etc.) apply to ActiveJob jobs the same way they apply to HTTP requests.
+
+**`ActiveJobSubscriber` vs `SidekiqMiddleware`:** Use `ActiveJobSubscriber` when you want adapter-agnostic tracing via `ApplicationJob` inheritance. Use `SidekiqMiddleware` when running Sidekiq workers that do *not* go through ActiveJob (i.e., plain `Sidekiq::Worker` classes).
 
 ### Custom formatters
 
