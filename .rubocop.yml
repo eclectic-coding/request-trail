@@ -12,6 +12,9 @@ AllCops:
     - "spec/**/*"
     - "vendor/**/*"
 
+Metrics/MethodLength:
+  Max: 12
+
 Style/Documentation:
   Enabled: false
 

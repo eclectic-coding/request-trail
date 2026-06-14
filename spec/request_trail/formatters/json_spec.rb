@@ -19,7 +19,9 @@ RSpec.describe RequestTrail::Formatters::JSON do
       cache_writes: 0,
       cache_duration_ms: 5.1,
       action_duration_ms: 0.0,
-      view_duration_ms: 0.0
+      view_duration_ms: 0.0,
+      http_count: 2,
+      http_duration_ms: 45.0
     )
   end
 
@@ -34,7 +36,9 @@ RSpec.describe RequestTrail::Formatters::JSON do
       cache_writes: 1,
       cache_duration_ms: 2.0,
       action_duration_ms: 80.0,
-      view_duration_ms: 22.0
+      view_duration_ms: 22.0,
+      http_count: 0,
+      http_duration_ms: 0.0
     )
   end
 
@@ -58,6 +62,10 @@ RSpec.describe RequestTrail::Formatters::JSON do
         expect(output["cache"]).to eq(
           "hits" => 2, "misses" => 1, "writes" => 0, "duration_ms" => 5.1
         )
+      end
+
+      it "includes http metrics" do
+        expect(output["http"]).to eq("count" => 2, "duration_ms" => 45.0)
       end
 
       it "omits the controller key" do

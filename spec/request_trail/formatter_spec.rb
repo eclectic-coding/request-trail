@@ -17,7 +17,9 @@ RSpec.describe RequestTrail::Formatter do
       cache_writes: 2,
       cache_duration_ms: 2.0,
       action_duration_ms: 0.0,
-      view_duration_ms: 0.0
+      view_duration_ms: 0.0,
+      http_count: 0,
+      http_duration_ms: 0.0
     )
   end
 
@@ -32,7 +34,9 @@ RSpec.describe RequestTrail::Formatter do
       cache_writes: 2,
       cache_duration_ms: 2.0,
       action_duration_ms: 104.0,
-      view_duration_ms: 22.0
+      view_duration_ms: 22.0,
+      http_count: 2,
+      http_duration_ms: 45.0
     )
   end
 
@@ -76,6 +80,10 @@ RSpec.describe RequestTrail::Formatter do
     it "includes cache duration" do
       expect(output).to include("2.0ms")
     end
+
+    it "includes http count and duration" do
+      expect(output).to include("HTTP: 0/0.0ms")
+    end
   end
 
   describe "#format — tiered (with controller data)" do
@@ -106,8 +114,17 @@ RSpec.describe RequestTrail::Formatter do
       expect(output).to include("view       22.0ms")
     end
 
+    it "includes http duration and call count" do
+      expect(output).to include("http       45.0ms (2 calls)")
+    end
+
+    it "uses singular 'call' for one http call" do
+      allow(tiered_collector).to receive(:http_count).and_return(1)
+      expect(formatter.format(request, tiered_collector)).to include("1 call)")
+    end
+
     it "is multi-line" do
-      expect(output.lines.count).to eq(5)
+      expect(output.lines.count).to eq(6)
     end
   end
 

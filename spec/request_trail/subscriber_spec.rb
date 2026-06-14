@@ -86,6 +86,24 @@ RSpec.describe RequestTrail::Subscriber do
       expect(RequestTrail::Collector.current.view_duration_ms).to eq(0.0)
     end
 
+    it "records outbound HTTP calls" do
+      described_class.attach
+      RequestTrail::Collector.start
+
+      ActiveSupport::Notifications.instrument("request.faraday") { nil }
+
+      expect(RequestTrail::Collector.current.http_count).to eq(1)
+    end
+
+    it "accumulates http_duration_ms" do
+      described_class.attach
+      RequestTrail::Collector.start
+
+      ActiveSupport::Notifications.instrument("request.faraday") { nil }
+
+      expect(RequestTrail::Collector.current.http_duration_ms).to be >= 0
+    end
+
     it "does nothing when no collector is active" do
       described_class.attach
       expect do
@@ -93,6 +111,7 @@ RSpec.describe RequestTrail::Subscriber do
         ActiveSupport::Notifications.instrument("cache_read.active_support", hit: true) { nil }
         ActiveSupport::Notifications.instrument("cache_write.active_support") { nil }
         ActiveSupport::Notifications.instrument("process_action.action_controller", view_runtime: 5.0) { nil }
+        ActiveSupport::Notifications.instrument("request.faraday") { nil }
       end.not_to raise_error
     end
   end
@@ -116,6 +135,16 @@ RSpec.describe RequestTrail::Subscriber do
       ActiveSupport::Notifications.instrument("cache_read.active_support", hit: true) { nil }
 
       expect(RequestTrail::Collector.current.cache_hits).to eq(0)
+    end
+
+    it "stops recording http events" do
+      described_class.attach
+      described_class.detach
+
+      RequestTrail::Collector.start
+      ActiveSupport::Notifications.instrument("request.faraday") { nil }
+
+      expect(RequestTrail::Collector.current.http_count).to eq(0)
     end
 
     it "is safe to call when not attached" do

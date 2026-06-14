@@ -2,10 +2,6 @@
 
 `request_trail` traces a Rails request through every processing layer — middleware, controller, ActiveRecord, cache — and emits a flame-graph-style summary to the log. This roadmap describes the incremental path to a stable 1.0.0.
 
-## 0.7.0 — Observability Completeness
-
-- Outbound HTTP tracking — subscribe to `request.faraday` notifications; surface call count and duration in all formatters
-
 ## 1.0.0 — Stable Release
 
 - Frozen public API (`Request::Trail.configure`, middleware interface, formatter interface)

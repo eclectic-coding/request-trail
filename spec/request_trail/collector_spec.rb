@@ -89,6 +89,27 @@ RSpec.describe RequestTrail::Collector do
     end
   end
 
+  describe "#record_http" do
+    subject(:collector) { described_class.new }
+
+    it "increments http_count" do
+      collector.record_http(duration_ms: 30.0)
+      collector.record_http(duration_ms: 15.0)
+      expect(collector.http_count).to eq(2)
+    end
+
+    it "accumulates http_duration_ms" do
+      collector.record_http(duration_ms: 30.0)
+      collector.record_http(duration_ms: 15.5)
+      expect(collector.http_duration_ms).to be_within(0.01).of(45.5)
+    end
+
+    it "initializes with zero http counts" do
+      expect(collector.http_count).to eq(0)
+      expect(collector.http_duration_ms).to eq(0.0)
+    end
+  end
+
   describe "#record_cache_write" do
     subject(:collector) { described_class.new }
 
