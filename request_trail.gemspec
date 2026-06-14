@@ -8,9 +8,13 @@ Gem::Specification.new do |spec|
   spec.authors = ["Chuck Smith"]
   spec.email = ["eclectic-coding@users.noreply.github.com"]
 
-  spec.summary = "Traces a Rails request through all layers and dumps a flame-graph summary to the log."
-  spec.description = "Middleware that traces a request through middleware, controller, " \
-                     "ActiveRecord, and cache layers, then dumps a flame-graph-style summary to the log."
+  spec.summary = "Per-request flame-graph tracing for Rails: SQL, cache, controller, ActiveJob, and outbound HTTP."
+  spec.description = "Rack middleware that traces every request through all processing layers — " \
+                     "controller, ActiveRecord, cache, ActiveJob, and outbound HTTP via Faraday — " \
+                     "then emits a flame-graph-style summary to the Rails log. " \
+                     "Supports plain-text, ASCII flame-graph, and JSON output; " \
+                     "N+1 detection; sampling; path filtering; Sidekiq and ActiveJob adapters; " \
+                     "and Rails log tags. Overhead under 1ms per request."
   spec.homepage = "https://github.com/eclectic-coding/request-trail"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 3.3.0"
