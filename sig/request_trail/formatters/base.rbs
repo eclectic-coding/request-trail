@@ -1,7 +1,7 @@
 module RequestTrail
   module Formatters
     module Base
-      def format: (::Rack::Request request, Collector collector) -> String
+      def format: (_RequestContext request, Collector collector) -> String
     end
   end
 end

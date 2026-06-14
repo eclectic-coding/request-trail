@@ -1,3 +1,14 @@
 module RequestTrail
   VERSION: String
+
+  interface _RequestContext
+    def request_method: () -> String
+    def path: () -> String
+  end
+
+  def self.configure: () { (Configuration) -> void } -> void
+  def self.configuration: () -> Configuration
+  def self.formatter: () -> Formatters::Base
+  def self.log_tag: () -> ^(untyped) -> LogTag::Value
+  def self.reset!: () -> nil
 end
