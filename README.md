@@ -365,7 +365,7 @@ You should see tiered output like:
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/eclectic-coding/request-trail.
+Bug reports and pull requests are welcome on GitHub at https://github.com/eclectic-coding/request-trail. See [CONTRIBUTING.md](CONTRIBUTING.md) for setup instructions, code style guidelines, and the pull request workflow.
 
 [Back to top](#requesttrail)
 

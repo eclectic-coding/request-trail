@@ -21,6 +21,7 @@ Gem::Specification.new do |spec|
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = "https://github.com/eclectic-coding/request-trail"
   spec.metadata["changelog_uri"] = "https://github.com/eclectic-coding/request-trail/blob/main/CHANGELOG.md"
+  spec.metadata["bug_tracker_uri"] = "https://github.com/eclectic-coding/request-trail/issues"
   spec.metadata["rubygems_mfa_required"] = "true"
 
   gemspec = File.basename(__FILE__)
