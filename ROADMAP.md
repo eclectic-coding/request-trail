@@ -4,7 +4,6 @@
 
 ## 0.7.0 — Observability Completeness
 
-- N+1 query detection — flag requests exceeding a configurable `config.n_plus_one_threshold`
 - ActiveJob adapter — generic around-perform hook covering GoodJob, Solid Queue, DelayedJob, and Sidekiq-via-ActiveJob
 - Outbound HTTP tracking — subscribe to `request.faraday` notifications; surface call count and duration in all formatters
 

@@ -12,6 +12,13 @@ module RequestTrail
       def format(_request, _collector)
         raise NotImplementedError, "#{self.class}#format must return a String"
       end
+
+      private
+
+      def n_plus_one?(collector)
+        threshold = RequestTrail.configuration.n_plus_one_threshold
+        threshold ? collector.sql_count >= threshold : false
+      end
     end
   end
 end

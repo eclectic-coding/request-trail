@@ -9,6 +9,7 @@ RSpec.describe RequestTrail::Configuration do
     it { expect(config.threshold_ms).to eq(0) }
     it { expect(config.ignore_paths).to eq([]) }
     it { expect(config.sample_rate).to eq(1.0) }
+    it { expect(config.n_plus_one_threshold).to be_nil }
   end
 
   describe "setters" do
@@ -35,6 +36,11 @@ RSpec.describe RequestTrail::Configuration do
     it "allows setting sample_rate" do
       config.sample_rate = 0.5
       expect(config.sample_rate).to eq(0.5)
+    end
+
+    it "allows setting n_plus_one_threshold" do
+      config.n_plus_one_threshold = 10
+      expect(config.n_plus_one_threshold).to eq(10)
     end
   end
 

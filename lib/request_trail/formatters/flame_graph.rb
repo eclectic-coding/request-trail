@@ -55,7 +55,8 @@ module RequestTrail
       def header_line(request, collector)
         elapsed = collector.elapsed_ms.round
         bar = BAR_CHAR * BAR_WIDTH
-        line = "[RequestTrail] #{request.request_method} #{request.path} #{elapsed}ms #{bar}"
+        n1 = n_plus_one?(collector) ? " [N+1?]" : ""
+        line = "[RequestTrail] #{request.request_method} #{request.path} #{elapsed}ms#{n1} #{bar}"
         return line unless colorize?
 
         "#{@colors[:header]}#{line}#{RESET}"

@@ -7,6 +7,7 @@ module RequestTrail
     attr_accessor threshold_ms: Numeric
     attr_accessor ignore_paths: Array[String | Regexp]
     attr_accessor sample_rate: Float
+    attr_accessor n_plus_one_threshold: Integer?
 
     def initialize: () -> void
     def logger: () -> ::Logger

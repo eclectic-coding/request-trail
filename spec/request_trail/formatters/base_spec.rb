@@ -19,6 +19,44 @@ RSpec.describe RequestTrail::Formatters::Base do
     end
   end
 
+  describe "#n_plus_one?" do
+    let(:formatter) do
+      formatter_class.define_method(:format) { |_req, _col| "ok" }
+      formatter_class.new
+    end
+    let(:collector) { instance_double(RequestTrail::Collector, sql_count: 5) }
+
+    context "when n_plus_one_threshold is nil (disabled)" do
+      it "returns false" do
+        expect(formatter.send(:n_plus_one?, collector)).to be false
+      end
+    end
+
+    context "when sql_count is below the threshold" do
+      before { RequestTrail.configuration.n_plus_one_threshold = 10 }
+
+      it "returns false" do
+        expect(formatter.send(:n_plus_one?, collector)).to be false
+      end
+    end
+
+    context "when sql_count equals the threshold" do
+      before { RequestTrail.configuration.n_plus_one_threshold = 5 }
+
+      it "returns true" do
+        expect(formatter.send(:n_plus_one?, collector)).to be true
+      end
+    end
+
+    context "when sql_count exceeds the threshold" do
+      before { RequestTrail.configuration.n_plus_one_threshold = 3 }
+
+      it "returns true" do
+        expect(formatter.send(:n_plus_one?, collector)).to be true
+      end
+    end
+  end
+
   describe "built-in formatters" do
     it "Formatter includes Base" do
       expect(RequestTrail::Formatter.ancestors).to include(described_class)

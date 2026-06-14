@@ -12,7 +12,16 @@ Middleware that traces a request through all the layers (middleware, controller,
 
 - [Installation](#installation)
 - [Usage](#usage)
-- [Custom formatters](#custom-formatters)
+  - [Rails](#rails)
+  - [JSON formatter](#json-formatter)
+  - [Flame graph formatter](#flame-graph-formatter)
+  - [N+1 detection](#n1-detection)
+  - [Rails log tags](#rails-log-tags)
+  - [Sidekiq](#sidekiq)
+  - [Custom formatters](#custom-formatters)
+  - [Installation generator](#installation-generator)
+  - [Configuration](#configuration)
+  - [Non-Rails (plain Rack)](#non-rails-plain-rack)
 - [Development](#development)
 - [Contributing](#contributing)
 - [License](#license)
@@ -110,6 +119,67 @@ RequestTrail::Formatters::FlameGraph.new(
 
 Unspecified layers keep their defaults.
 
+### N+1 detection
+
+Set `config.n_plus_one_threshold` to flag requests that fire too many SQL queries. When `sql_count >= threshold`, all formatters add a prominent marker:
+
+```ruby
+RequestTrail.configure do |config|
+  config.n_plus_one_threshold = 10  # nil = disabled (default)
+end
+```
+
+Plain text and FlameGraph append `[N+1?]` to the header line:
+
+```
+[RequestTrail] GET /orders 142ms [N+1?] | SQL: 15/85.0ms | Cache: 0 hits, 0 misses, 0.0ms
+```
+
+JSON includes `"n_plus_one": true` in the payload:
+
+```json
+{"method":"GET","path":"/orders","duration_ms":142.5,"n_plus_one":true,"sql":{"count":15,"duration_ms":85.0},...}
+```
+
+### Rails log tags
+
+Add `RequestTrail.log_tag` to `config.log_tags` to include live request state on every tagged log line. The callable returns a lazy value that evaluates to `sql=N Nms` at log-line format time — so it reflects the accumulated query state at each point during the request:
+
+```ruby
+# config/application.rb
+config.log_tags = [:request_id, RequestTrail.log_tag]
+```
+
+Example output:
+
+```
+[abc-123] [sql=3 25ms] Completed 200 OK in 25ms
+[abc-123] [sql=3 25ms] [RequestTrail] GET /orders 25ms | SQL: 3/10.0ms | Cache: 0 hits, 0 misses, 0.0ms
+```
+
+The tag is omitted (blank-suppressed by Rails) on lines that fall outside an active request.
+
+### Sidekiq
+
+Add `RequestTrail::SidekiqMiddleware` to the Sidekiq server middleware chain to trace background job execution with the same flame-graph output:
+
+```ruby
+# config/initializers/sidekiq.rb
+Sidekiq.configure_server do |config|
+  config.server_middleware do |chain|
+    chain.add RequestTrail::SidekiqMiddleware
+  end
+end
+```
+
+Output uses `JOB` as the method and includes the worker class and job ID:
+
+```
+[RequestTrail] JOB HardWorker jid:abc123 42ms | SQL: 5/35.0ms | Cache: 0 hits, 0 misses, 0.0ms
+```
+
+All configuration options (`threshold_ms`, `sample_rate`, `n_plus_one_threshold`, `formatter`, etc.) apply to Sidekiq jobs the same way they apply to HTTP requests.
+
 ### Custom formatters
 
 Any object that responds to `format(request, collector)` and returns a `String` can be used as a formatter. Include `RequestTrail::Formatters::Base` to make the contract explicit:
@@ -149,17 +219,20 @@ Add an initializer to customize behavior:
 ```ruby
 # config/initializers/request_trail.rb
 RequestTrail.configure do |config|
-  config.enabled       = true      # set to false to disable entirely
-  config.log_level     = :info     # Rails logger level (:debug, :info, :warn)
-  config.threshold_ms  = 200       # only log requests slower than this (0 = log all)
-  config.logger        = nil       # defaults to Rails.logger
-  config.formatter     = RequestTrail::Formatters::FlameGraph.new  # optional
+  config.enabled              = true      # set to false to disable entirely
+  config.log_level            = :info     # Rails logger level (:debug, :info, :warn)
+  config.threshold_ms         = 200       # only log requests slower than this (0 = log all)
+  config.logger               = nil       # defaults to Rails.logger
+  config.formatter            = RequestTrail::Formatters::FlameGraph.new  # optional
 
   # skip tracing for specific paths (strings = exact match, regexes = pattern match)
-  config.ignore_paths  = ["/health", "/up", /^\/assets/]
+  config.ignore_paths         = ["/health", "/up", /^\/assets/]
 
   # trace only N% of requests — useful in high-traffic production environments
-  config.sample_rate   = 0.1      # 0.0 = never, 1.0 = always (default)
+  config.sample_rate          = 0.1      # 0.0 = never, 1.0 = always (default)
+
+  # flag requests with too many SQL queries (nil = disabled)
+  config.n_plus_one_threshold = 10
 end
 ```
 

@@ -169,4 +169,24 @@ RSpec.describe RequestTrail::Formatters::FlameGraph do
       expect(cache_line).not_to include("█")
     end
   end
+
+  describe "N+1 detection" do
+    context "when n_plus_one_threshold is nil" do
+      it "omits the [N+1?] marker" do
+        expect(formatter.format(request, base_collector)).not_to include("[N+1?]")
+      end
+    end
+
+    context "when sql_count meets or exceeds the threshold" do
+      before { RequestTrail.configuration.n_plus_one_threshold = 3 }
+
+      it "includes [N+1?] in the header line" do
+        expect(formatter.format(request, base_collector).lines.first).to include("[N+1?]")
+      end
+
+      it "still renders the bar after the marker" do
+        expect(formatter.format(request, base_collector).lines.first).to include("█")
+      end
+    end
+  end
 end
