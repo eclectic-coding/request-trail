@@ -58,7 +58,8 @@
 - `RequestTrail::Subscriber` — attach/detach API for notification subscriptions
 - `RequestTrail::Collector` — thread-safe per-request event accumulator
 
-[Unreleased]: https://github.com/eclectic-coding/request-trail/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/eclectic-coding/request-trail/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/eclectic-coding/request-trail/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/eclectic-coding/request-trail/releases/tag/v0.5.0
 [0.4.0]: https://github.com/eclectic-coding/request-trail/releases/tag/v0.4.0
 [0.3.0]: https://github.com/eclectic-coding/request-trail/releases/tag/v0.3.0
