@@ -5,8 +5,6 @@
 ## 0.6.0 — Structured Output & Integrations
 
 - `config.logger` override for writing to a separate file or custom appender
-- ~~Rails log tags integration~~ ✓
-- ~~Optional Sidekiq adapter for tracing background job execution layers~~ ✓
 
 ## 1.0.0 — Stable Release
 
