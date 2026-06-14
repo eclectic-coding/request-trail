@@ -6,4 +6,4 @@
 
 There are no features currently planned or scheduled. The public API is stable and the gem is considered production-ready.
 
-If you have a feature request, bug report, or idea for improvement, please [open an issue](https://github.com/eclectic-coding/request-trail/issues/new) on GitHub. Contributions via pull request are welcome.
+If you have a feature request, bug report, or idea for improvement, please [open an issue](https://github.com/eclectic-coding/request-trail/issues/new) on GitHub. Contributions via pull request are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md) for details.
