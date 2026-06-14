@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.7.0] - 2026-06-14
+
 ### Added
 
 - `config.n_plus_one_threshold` — flag requests where SQL query count meets or exceeds a threshold; appends `[N+1?]` to the header line in plain-text and FlameGraph output, and sets `"n_plus_one": true` in JSON output (default: `nil` = disabled)
@@ -64,7 +66,8 @@
 - `RequestTrail::Subscriber` — attach/detach API for notification subscriptions
 - `RequestTrail::Collector` — thread-safe per-request event accumulator
 
-[Unreleased]: https://github.com/eclectic-coding/request-trail/compare/v0.6.0...HEAD
+[Unreleased]: https://github.com/eclectic-coding/request-trail/compare/v0.7.0...HEAD
+[0.7.0]: https://github.com/eclectic-coding/request-trail/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/eclectic-coding/request-trail/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/eclectic-coding/request-trail/releases/tag/v0.5.0
 [0.4.0]: https://github.com/eclectic-coding/request-trail/releases/tag/v0.4.0
