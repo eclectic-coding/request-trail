@@ -5,7 +5,7 @@ require "logger"
 module RequestTrail
   class Configuration
     attr_writer :logger, :formatter
-    attr_accessor :enabled, :log_level, :threshold_ms, :ignore_paths, :sample_rate
+    attr_accessor :enabled, :log_level, :threshold_ms, :ignore_paths, :sample_rate, :n_plus_one_threshold
 
     def initialize
       @enabled = true
@@ -13,6 +13,7 @@ module RequestTrail
       @threshold_ms = 0
       @ignore_paths = []
       @sample_rate = 1.0
+      @n_plus_one_threshold = nil
     end
 
     def sampled?

@@ -5,7 +5,8 @@ module RequestTrail
     include Formatters::Base
 
     def format(request, collector)
-      header = "[RequestTrail] #{request.request_method} #{request.path} #{collector.elapsed_ms.round}ms"
+      n1 = n_plus_one?(collector) ? " [N+1?]" : ""
+      header = "[RequestTrail] #{request.request_method} #{request.path} #{collector.elapsed_ms.round}ms#{n1}"
       return tiered_format(header, collector) if collector.action_duration_ms.positive?
 
       "#{header} | #{sql_summary(collector)} | #{cache_summary(collector)}"

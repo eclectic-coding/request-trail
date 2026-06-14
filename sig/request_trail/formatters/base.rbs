@@ -2,6 +2,10 @@ module RequestTrail
   module Formatters
     module Base
       def format: (_RequestContext request, Collector collector) -> String
+
+      private
+
+      def n_plus_one?: (Collector collector) -> bool
     end
   end
 end

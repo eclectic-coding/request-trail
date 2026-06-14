@@ -67,6 +67,20 @@ RSpec.describe RequestTrail::Formatters::JSON do
       it "produces valid JSON" do
         expect { formatter.format(request, flat_collector) }.not_to raise_error
       end
+
+      it "includes n_plus_one: false when threshold is not met" do
+        RequestTrail.configuration.n_plus_one_threshold = 10
+        expect(output["n_plus_one"]).to be false
+      end
+
+      it "includes n_plus_one: true when threshold is met" do
+        RequestTrail.configuration.n_plus_one_threshold = 3
+        expect(::JSON.parse(formatter.format(request, flat_collector))["n_plus_one"]).to be true
+      end
+
+      it "includes n_plus_one: false when threshold is nil" do
+        expect(output["n_plus_one"]).to be false
+      end
     end
 
     context "with controller data (tiered)" do

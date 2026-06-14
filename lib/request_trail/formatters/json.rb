@@ -20,6 +20,7 @@ module RequestTrail
           method: request.request_method,
           path: request.path,
           duration_ms: collector.elapsed_ms,
+          n_plus_one: n_plus_one?(collector),
           sql: { count: collector.sql_count, duration_ms: collector.sql_duration_ms },
           cache: cache_payload(collector)
         }

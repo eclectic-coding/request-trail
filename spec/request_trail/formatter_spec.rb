@@ -110,4 +110,32 @@ RSpec.describe RequestTrail::Formatter do
       expect(output.lines.count).to eq(5)
     end
   end
+
+  describe "N+1 detection" do
+    context "when n_plus_one_threshold is nil" do
+      it "omits the [N+1?] marker" do
+        expect(formatter.format(request, base_collector)).not_to include("[N+1?]")
+      end
+    end
+
+    context "when sql_count is below the threshold" do
+      before { RequestTrail.configuration.n_plus_one_threshold = 10 }
+
+      it "omits the [N+1?] marker" do
+        expect(formatter.format(request, base_collector)).not_to include("[N+1?]")
+      end
+    end
+
+    context "when sql_count meets or exceeds the threshold" do
+      before { RequestTrail.configuration.n_plus_one_threshold = 7 }
+
+      it "includes the [N+1?] marker in the header" do
+        expect(formatter.format(request, base_collector)).to include("[N+1?]")
+      end
+
+      it "includes [N+1?] in the tiered header too" do
+        expect(formatter.format(request, tiered_collector)).to include("[N+1?]")
+      end
+    end
+  end
 end
