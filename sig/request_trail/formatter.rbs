@@ -1,6 +1,6 @@
 module RequestTrail
   class Formatter
-    def format: (::Rack::Request request, Collector collector) -> String
+    def format: (_RequestContext request, Collector collector) -> String
 
     private
 

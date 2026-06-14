@@ -1,0 +1,8 @@
+module RequestTrail
+  module LogTag
+    class Value
+      def to_s: () -> String
+      def blank?: () -> bool
+    end
+  end
+end

@@ -2,12 +2,6 @@
 
 `request_trail` traces a Rails request through every processing layer — middleware, controller, ActiveRecord, cache — and emits a flame-graph-style summary to the log. This roadmap describes the incremental path to a stable 1.0.0.
 
-## 0.6.0 — Structured Output & Integrations
-
-- `config.logger` override for writing to a separate file or custom appender
-- Rails log tags integration
-- Optional Sidekiq adapter for tracing background job execution layers
-
 ## 1.0.0 — Stable Release
 
 - Frozen public API (`Request::Trail.configure`, middleware interface, formatter interface)

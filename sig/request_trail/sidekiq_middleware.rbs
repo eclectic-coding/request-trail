@@ -1,0 +1,12 @@
+module RequestTrail
+  class SidekiqMiddleware
+    class JobContext
+      attr_accessor request_method: String
+      attr_accessor path: String
+
+      def initialize: (request_method: String, path: String) -> void
+    end
+
+    def call: (untyped _worker, Hash[String, untyped] job, untyped _queue) { () -> void } -> void
+  end
+end

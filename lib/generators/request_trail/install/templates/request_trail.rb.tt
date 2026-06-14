@@ -10,3 +10,14 @@ RequestTrail.configure do |config|
   # config.logger    = Rails.logger  # defaults to Rails.logger
   # config.formatter = RequestTrail::Formatters::FlameGraph.new(colorize: true)
 end
+
+# Rails log tags — add the trail summary to every tagged log line:
+#   config.log_tags = [:request_id, RequestTrail.log_tag]
+
+# Sidekiq — trace background jobs with the same flame-graph output.
+# Add to config/initializers/sidekiq.rb:
+#   Sidekiq.configure_server do |config|
+#     config.server_middleware do |chain|
+#       chain.add RequestTrail::SidekiqMiddleware
+#     end
+#   end
