@@ -18,7 +18,7 @@ group :development, :test do
   gem "rake", "~> 13.0"
   gem "rspec", "~> 3.0"
   gem "rspec-rails"
-  gem "rubocop", "~> 1.21"
+  gem "rubocop", "~> 1.92"
   gem "rubocop-rake"
   gem "simplecov", require: false
   gem "simplecov_json_formatter", require: false
