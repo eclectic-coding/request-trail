@@ -10,6 +10,8 @@ cd request-trail
 bin/setup
 ```
 
+`bin/setup` also enables a pre-push hook (`.githooks/pre-push`) that runs `bundle exec rake` before every push. Bypass it in an emergency with `git push --no-verify`.
+
 ## Development workflow
 
 Run the full CI suite before opening a pull request:

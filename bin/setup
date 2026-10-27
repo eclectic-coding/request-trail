@@ -5,4 +5,7 @@ set -vx
 
 bundle install
 
+# Run the full check suite before every push (bypass with `git push --no-verify`)
+git config core.hooksPath .githooks
+
 # Do any other automated setup that you need to do here
