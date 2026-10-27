@@ -2,11 +2,11 @@
 
 module RequestTrail
   class Railtie < Rails::Railtie
-    # :nocov:
+    # simplecov:disable
     initializer "request_trail.insert_middleware" do |app|
       app.middleware.use(RequestTrail::Middleware)
       Subscriber.attach
     end
-    # :nocov:
+    # simplecov:enable
   end
 end
