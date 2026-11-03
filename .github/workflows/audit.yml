@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: read
+  issues: write
 
 jobs:
   audit:
@@ -25,3 +26,28 @@ jobs:
 
       - name: Run bundler-audit
         run: bundle exec rake bundle:audit:update bundle:audit:check
+
+      # A red scheduled run only shows up in the Actions tab. Open an issue so a
+      # failure is noticed, and close it again once the audit passes.
+      - name: Open an issue on failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          existing=$(gh issue list --state open --label security-audit --json number --jq '.[0].number // empty')
+          if [ -z "$existing" ]; then
+            gh label create security-audit --description "Scheduled bundler-audit failure" --color D93F0B 2>/dev/null || true
+            gh issue create --label security-audit \
+              --title "Scheduled security audit is failing" \
+              --body "bundler-audit found vulnerabilities. See the [failed run]($RUN_URL), then update the affected gems (\`bundle update --conservative <gem>\`). This issue closes itself when the audit passes."
+          fi
+
+      - name: Close the audit issue once passing
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          for n in $(gh issue list --state open --label security-audit --json number --jq '.[].number'); do
+            gh issue close "$n" --comment "Audit is passing again."
+          done

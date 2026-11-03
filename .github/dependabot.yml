@@ -4,7 +4,37 @@ updates:
     directory: "/"
     schedule:
       interval: weekly
+    # Also update transitive dependencies (nokogiri, loofah, ...). By default
+    # Dependabot only touches direct ones, so advisories on indirect gems sat
+    # unfixed until the scheduled audit failed.
+    allow:
+      - dependency-type: all
+    groups:
+      # Order matters: a dependency lands in the first group it matches.
+      dev-dependencies:
+        dependency-type: development
+        update-types:
+          - minor
+          - patch
+      runtime-dependencies:
+        dependency-type: production
+        update-types:
+          - minor
+          - patch
+      transitive-dependencies:
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
       interval: weekly
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
