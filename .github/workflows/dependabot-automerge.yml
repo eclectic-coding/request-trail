@@ -8,7 +8,7 @@ permissions:
 
 jobs:
   automerge:
-    name: Auto-merge patch and minor dev updates
+    name: Auto-merge patch and minor dev and transitive updates
     runs-on: ubuntu-latest
     if: github.event.pull_request.user.login == 'dependabot[bot]'
 
@@ -19,8 +19,23 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
+      # Grouped PRs bundle several dependencies, and the single-value outputs
+      # (dependency-type, update-type) don't describe them reliably. Check every
+      # updated dependency instead: all must be a development or transitive
+      # (indirect) dependency, and none may be a major bump.
+      - name: Check whether every update is safe to auto-merge
+        id: safe
+        env:
+          UPDATES: ${{ steps.metadata.outputs.updated-dependencies-json }}
+        run: |
+          if echo "$UPDATES" | jq -e 'length > 0 and all(.[]; (.dependencyType == "direct:development" or .dependencyType == "indirect") and .updateType != "version-update:semver-major")' > /dev/null; then
+            echo "merge=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "merge=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Enable auto-merge
-        if: steps.metadata.outputs.dependency-type == 'direct:development' && steps.metadata.outputs.update-type != 'version-update:semver-major'
+        if: steps.safe.outputs.merge == 'true'
         run: gh pr merge --auto --merge "$PR_URL"
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
