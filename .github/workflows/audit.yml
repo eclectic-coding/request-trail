@@ -24,13 +24,17 @@ jobs:
           ruby-version: "3.3"
           bundler-cache: true
 
+      # Don't fail the run: a red scheduled run emails everyone and shows as a
+      # failing badge. Findings are reported through an issue instead (below).
       - name: Run bundler-audit
+        id: audit
+        continue-on-error: true
         run: bundle exec rake bundle:audit:update bundle:audit:check
 
-      # A red scheduled run only shows up in the Actions tab. Open an issue so a
-      # failure is noticed, and close it again once the audit passes.
+      # Open an issue so findings are noticed, and close it again once the
+      # audit passes.
       - name: Open an issue on failure
-        if: failure()
+        if: steps.audit.outcome == 'failure'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
@@ -44,7 +48,7 @@ jobs:
           fi
 
       - name: Close the audit issue once passing
-        if: success()
+        if: steps.audit.outcome == 'success'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
