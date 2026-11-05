@@ -3,7 +3,9 @@ updates:
   - package-ecosystem: bundler
     directory: "/"
     schedule:
-      interval: weekly
+      # Daily, to match the daily scheduled audit: a weekly cadence left new
+      # advisories failing the audit for days before a fix PR appeared.
+      interval: daily
     # Also update transitive dependencies (nokogiri, loofah, ...). By default
     # Dependabot only touches direct ones, so advisories on indirect gems sat
     # unfixed until the scheduled audit failed.
